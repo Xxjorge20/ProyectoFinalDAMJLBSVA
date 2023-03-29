@@ -1,14 +1,9 @@
-package ies.luiscarrillodesotomayor.gestionincidencias.Datos
+package ies.luiscarrillo.proyectofinaldamjlbsva.Datos.ParteIncidencias.Data
 
-import android.app.AlertDialog
-import android.content.Context
-import android.graphics.Bitmap
-import android.net.Uri
 import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
-import kotlin.coroutines.coroutineContext
 
 open class Incidencia {
 
