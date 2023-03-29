@@ -1,12 +1,11 @@
 package ies.luiscarrillodesotomayor.gestionincidencias.Menu
 
+import InicioSesion.MainActivity
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.media.MediaScannerConnection
-import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.os.Handler
@@ -19,27 +18,15 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.inject.Deferred
-import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.ktx.storage
-import ies.luiscarrillodesotomayor.gestionincidencias.Datos.Incidencia
-import ies.luiscarrillodesotomayor.gestionincidencias.MainActivity
-import ies.luiscarrillodesotomayor.gestionincidencias.R
-import ies.luiscarrillodesotomayor.gestionincidencias.databinding.FragmentInsertarIncidenciaBinding
-import kotlinx.coroutines.CompletableDeferred
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.GlobalScope.coroutineContext
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.tasks.await
+import ies.luiscarrillo.proyectofinaldamjlbsva.Datos.ParteIncidencias.Data.Incidencia
+import ies.luiscarrillo.proyectofinaldamjlbsva.R
+import ies.luiscarrillo.proyectofinaldamjlbsva.databinding.FragmentInsertarIncidenciaBinding
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
-import java.net.URL
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 class InsertarIncidenciaFragment : Fragment(R.layout.fragment_insertar_incidencia) {

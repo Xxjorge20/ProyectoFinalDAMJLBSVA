@@ -13,6 +13,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import ies.luiscarrillo.proyectofinaldamjlbsva.Datos.ParteIncidencias.Menu.MenuLateral
 import ies.luiscarrillo.proyectofinaldamjlbsva.databinding.ActivityInicioBinding
 import ies.luiscarrillo.proyectofinaldamjlbsva.databinding.ActivityMainBinding
 import ies.luiscarrillo.proyectofinaldamjlbsva.databinding.ActivityRegistroBinding
@@ -62,8 +63,8 @@ class MainActivity : AppCompatActivity() {
                     // Si la autenticacion tuvo exito:
                     if (it.isSuccessful)
                     {
-                        // Obtengo los datos de la base de datos y cambio de activity
-                        val intent = Intent(this, InicioActivity::class.java)
+                        // Obtengo los datos de la base de datos y cambio de activity // CAMBIAR PARA PROBAR DISTINTAS PARTES
+                        val intent = Intent(this, MenuLateral::class.java)
 
                         intent.putExtra("correo", binding.correo.text.toString())
 

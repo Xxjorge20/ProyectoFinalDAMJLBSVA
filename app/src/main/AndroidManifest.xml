@@ -17,6 +17,7 @@
         android:label="Ies Luis Carrillo de Sotomayor"
         android:supportsRtl="true"
         android:theme="@style/Theme.ProyectoFinalDAMJLBSVA"
+        android:roundIcon="@drawable/logoluiscarrillo"
         tools:targetApi="31">
 
         <!-- Parte de la Aplicacion de Sergio Villar Avalos -->
@@ -63,6 +64,16 @@
         </activity>
 
         <!-- Parte de la Aplicacion de Jorge López Bravo -->
+        <activity android:name=".Datos.ParteIncidencias.Menu.MenuLateral"
+
+            android:theme="@style/Theme.ProyectoFinalDAMJLBSVA"
+            android:exported="true">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+
+        </activity>
+
 
     </application>
 </manifest>

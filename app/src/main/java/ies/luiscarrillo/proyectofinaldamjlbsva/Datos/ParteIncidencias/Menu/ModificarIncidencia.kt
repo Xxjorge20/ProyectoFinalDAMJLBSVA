@@ -14,8 +14,8 @@ import android.widget.ImageView
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import com.google.firebase.storage.FirebaseStorage
-import ies.luiscarrillodesotomayor.gestionincidencias.Datos.Incidencia
-import ies.luiscarrillodesotomayor.gestionincidencias.databinding.FragmentModificarIncidenciaBinding
+import ies.luiscarrillo.proyectofinaldamjlbsva.Datos.ParteIncidencias.Data.Incidencia
+import ies.luiscarrillo.proyectofinaldamjlbsva.databinding.FragmentModificarIncidenciaBinding
 import java.io.ByteArrayOutputStream
 
 // TODO: Rename parameter arguments, choose names that match

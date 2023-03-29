@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.FirebaseFirestore
+import ies.luiscarrillo.proyectofinaldamjlbsva.Datos.ParteIncidencias.Adapter.adapterIncidencas
 import ies.luiscarrillo.proyectofinaldamjlbsva.Datos.ParteIncidencias.Data.DatosIncidencias
 import ies.luiscarrillo.proyectofinaldamjlbsva.R
 
@@ -48,7 +49,7 @@ class CasaFragment : Fragment() {
         recicler?.layoutManager = LinearLayoutManager(context)
         // Cargar datos
         cargarDatos()
-        recicler?.adapter = adapter(listaIncidencias)
+        recicler?.adapter = adapterIncidencas(listaIncidencias)
 
         return vista
     }
@@ -66,7 +67,7 @@ class CasaFragment : Fragment() {
                     val incidencia = document.toObject(DatosIncidencias::class.java)
                     listaIncidencias.add(incidencia)
                 }
-              var adapter = adapter(listaIncidencias)
+              var adapter = adapterIncidencas(listaIncidencias)
                 recicler?.adapter = adapter
             }
             .addOnFailureListener { exception ->
