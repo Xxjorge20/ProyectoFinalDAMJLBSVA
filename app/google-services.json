@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "16348787780",
+    "project_id": "proyectofinaldamjlbsva",
+    "storage_bucket": "proyectofinaldamjlbsva.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:16348787780:android:9c480701148cd7c830b811",
+        "android_client_info": {
+          "package_name": "ies.luiscarrillo.proyectofinaldamjlbsva"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "16348787780-e5qjet60vlbt6ik1q2rvevuhsui004bt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCisovD4rLgKHATtQuCx6BgslmXafZkYI4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "16348787780-e5qjet60vlbt6ik1q2rvevuhsui004bt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
