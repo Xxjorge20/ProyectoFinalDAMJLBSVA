@@ -12,10 +12,10 @@ import ies.luiscarrillo.proyectofinaldamjlbsva.R
 class UsersViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     // Crear variables para usar en el ViewHolder
-    val imagen = itemView.findViewById<ImageView>(R.id.imagenUsuario)
-    val email = itemView.findViewById<TextView>(R.id.email)
-    val nombre = itemView.findViewById<TextView>(R.id.nombreUsuario)
-    val apellidos = itemView.findViewById<TextView>(R.id.apellidosUsuario)
+    private val imagen = itemView.findViewById<ImageView>(R.id.imagenUsuario)
+    private val email = itemView.findViewById<TextView>(R.id.email)
+    private val nombre = itemView.findViewById<TextView>(R.id.nombreUsuario)
+    private val apellidos = itemView.findViewById<TextView>(R.id.apellidosUsuario)
 
 
     fun bind(itemsUsuarios: ItemsUsuarios){

@@ -21,16 +21,10 @@ import ies.luiscarrillo.proyectofinaldamjlbsva.databinding.ActivityRegistroBindi
 
 class MainActivity : AppCompatActivity() {
 
-    lateinit var binding: ActivityMainBinding
-    lateinit var binding1 : ActivityInicioBinding
-    lateinit var binding2 : ActivityRegistroBinding
-    lateinit var binding3 : Usuarios
-    val auth = FirebaseAuth.getInstance()
-    val currentUser = auth.currentUser
-    val uid = currentUser?.uid
-    val db = FirebaseFirestore.getInstance()
+    private lateinit var binding: ActivityMainBinding
+    private lateinit var binding1 : ActivityInicioBinding
+    private lateinit var binding2 : ActivityRegistroBinding
 
-   //var botonInvisible = findViewById<Button>(R.id.mostrarUsuario)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         FirebaseApp.initializeApp(this)
@@ -38,7 +32,6 @@ class MainActivity : AppCompatActivity() {
         binding1 = ActivityInicioBinding.inflate(layoutInflater)
         binding2 = ActivityRegistroBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        val db = Firebase.firestore
 
         binding.sesion.setOnClickListener{
             // Al pulsar sobre el botón INICIAR SESION, comprobamos autentificacion
@@ -53,8 +46,6 @@ class MainActivity : AppCompatActivity() {
     private fun login() {
         // Si el correo y el password no son campos vacios:
         if (binding.correo.text.isNotEmpty() && binding.EscribirContrasena.text.isNotEmpty()){
-            // Iniciamos sesion con el método signIn y enviamos a Firebase el correo y la contraseña
-            // Iniciamos sesion con el método signIn y enviamos a Firebase el correo y la contraseña
             FirebaseAuth.getInstance().signInWithEmailAndPassword(
                 binding.correo.text.toString(),
                 binding.EscribirContrasena.text.toString()
@@ -64,10 +55,9 @@ class MainActivity : AppCompatActivity() {
                     if (it.isSuccessful)
                     {
                         // Obtengo los datos de la base de datos y cambio de activity // CAMBIAR PARA PROBAR DISTINTAS PARTES
-                        val intent = Intent(this, MenuLateral::class.java)
+                            val intent = Intent(this, MenuLateral::class.java)
 
                         intent.putExtra("correo", binding.correo.text.toString())
-
 
                         startActivity(intent)
                     }

@@ -66,7 +66,6 @@ class MenuLateral : AppCompatActivity() {
                     startActivity(intent)
                     // Cierro la actividad
                     finish()
-
                 }
             }
 
