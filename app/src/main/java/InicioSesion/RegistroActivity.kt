@@ -68,10 +68,7 @@ class RegistroActivity : AppCompatActivity() {
                                 "apellidos" to binding.apellidos.text.toString(),
                                 "email" to binding.email.text.toString(),
                                 "privilegios" to usuario.privi,
-                            )
-                            )
-
-
+                            ))
 
                         // Accedemos a la pantalla InicioActivity parae dar la bienvenida al usuario
                         val intent = Intent(this, InicioActivity::class.java).apply {

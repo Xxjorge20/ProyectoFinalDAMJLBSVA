@@ -55,9 +55,15 @@ class MainActivity : AppCompatActivity() {
                     if (it.isSuccessful)
                     {
                         // Obtengo los datos de la base de datos y cambio de activity // CAMBIAR PARA PROBAR DISTINTAS PARTES
-                            val intent = Intent(this, MenuLateral::class.java)
+                        // MenuLateral -> Parte de Jorge
+                        // InicioActivity -> Parte de Sergio
+                        val intent = Intent(this, MenuLateral::class.java)
 
                         intent.putExtra("correo", binding.correo.text.toString())
+                        var correo = binding.correo.text.toString()
+                       var nombre = correo.split("@")[0]
+                        intent.putExtra("nombre", nombre)
+
 
                         startActivity(intent)
                     }

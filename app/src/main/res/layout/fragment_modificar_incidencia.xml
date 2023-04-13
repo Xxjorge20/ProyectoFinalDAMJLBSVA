@@ -36,7 +36,7 @@
     <EditText
         android:id="@+id/TBDescripcionIncidencia2Modificar"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="84dp"
         android:background="@drawable/borde_edittext"
         android:ems="10"
@@ -90,13 +90,12 @@
         android:id="@+id/BModificarIncidencia"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="196dp"
         android:background="@drawable/boton_neon"
         android:text="Modificar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/listPrioridadModificar" />
+        app:layout_constraintTop_toBottomOf="@+id/checkBoxSi" />
 
     <TextView
         android:id="@+id/textView7"
@@ -126,16 +125,26 @@
         android:id="@+id/textView9"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:text="Has Acabado la Incidencia?"
+        android:layout_marginTop="28dp"
+        android:text="¿Has Acabado la Incidencia?"
         android:textColor="@color/white"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/listPrioridadModificar" />
 
-
+    <CheckBox
+        android:id="@+id/checkBoxSi"
+        android:layout_width="83dp"
+        android:layout_height="33dp"
+        android:layout_marginTop="24dp"
+        android:text="Si"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.286"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView9" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

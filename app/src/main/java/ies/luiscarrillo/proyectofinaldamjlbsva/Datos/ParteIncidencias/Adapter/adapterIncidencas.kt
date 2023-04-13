@@ -1,6 +1,5 @@
 package ies.luiscarrillo.proyectofinaldamjlbsva.Datos.ParteIncidencias.Adapter
 
-import InicioSesion.MainActivity
 import android.app.AlertDialog
 import android.graphics.BitmapFactory
 import android.os.Bundle
@@ -15,6 +14,7 @@ import ies.luiscarrillo.proyectofinaldamjlbsva.Datos.ParteIncidencias.ViewHolder
 import ies.luiscarrillo.proyectofinaldamjlbsva.R
 import ies.luiscarrillo.proyectofinaldamjlbsva.Datos.ParteIncidencias.Data.DatosIncidencias
 import ies.luiscarrillo.proyectofinaldamjlbsva.Datos.ParteIncidencias.Data.Incidencia
+import ies.luiscarrillo.proyectofinaldamjlbsva.Datos.ParteIncidencias.Menu.MenuLateral
 import ies.luiscarrillodesotomayor.gestionincidencias.Menu.ModificarIncidencia
 
 
@@ -90,11 +90,20 @@ class adapterIncidencas(private var incidencias: ArrayList<DatosIncidencias>) : 
         args.putString("descripcion", datosIncidencias.descripcion)
         args.putString("prioridad", datosIncidencias.prioridad)
         args.putBoolean("acabada", datosIncidencias.acabada)
+        args.putString("foto", datosIncidencias.foto)
 
+        /*
+                datosIncidencias.nombre,
+                datosIncidencias.fecha,
+                datosIncidencias.descripcion,
+                datosIncidencias.acabada,
+                datosIncidencias.foto,
+                datosIncidencias.prioridad,
+                datosIncidencias.ID
+        * */
         fragment.arguments = args
-
-        // Importe de la actividad principal CUIDADO
-        val fragmentManager: FragmentManager = (holder.itemView.context as MainActivity).supportFragmentManager
+        // Asociar con el menu de la aplicacion de la parte de incidencias
+        val fragmentManager: FragmentManager = (holder.itemView.context as MenuLateral).supportFragmentManager
         fragmentManager.beginTransaction().replace(R.id.fragment_container_view, fragment).commit()
 
     }

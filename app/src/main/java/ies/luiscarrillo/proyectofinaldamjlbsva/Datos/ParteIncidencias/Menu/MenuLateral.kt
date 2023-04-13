@@ -40,7 +40,7 @@ class MenuLateral : AppCompatActivity() {
         val header = binding.navView.getHeaderView(0)
         val email = header.findViewById<TextView>(R.id.TBCorreoUserName)
         val nombre = header.findViewById<TextView>(R.id.TBUserName)
-        email.text = intent.getStringExtra("email")
+        email.text = intent.getStringExtra("correo")
         nombre.text = intent.getStringExtra("nombre")
 
 
@@ -51,10 +51,13 @@ class MenuLateral : AppCompatActivity() {
                     supportFragmentManager.beginTransaction().replace(R.id.fragment_container_view, CasaFragment()).commit()
                     binding.drawer.closeDrawers()
                 }
+                /*
                 R.id.nav_modificarIncidencia -> {
                     supportFragmentManager.beginTransaction().replace(R.id.fragment_container_view, ModificarIncidencia()).commit()
                     binding.drawer.closeDrawers()
                 }
+                */
+
                 R.id.nav_insertarIncidencia -> {
                     supportFragmentManager.beginTransaction().replace(R.id.fragment_container_view, InsertarIncidenciaFragment()).commit()
                     binding.drawer.closeDrawers()

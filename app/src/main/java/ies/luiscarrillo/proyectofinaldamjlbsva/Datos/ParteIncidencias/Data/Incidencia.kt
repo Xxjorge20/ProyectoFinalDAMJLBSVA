@@ -67,8 +67,8 @@ open class Incidencia {
         var insertadoCorrectamente = false
         var auth = FirebaseAuth.getInstance()
         val db = FirebaseFirestore.getInstance()
-         val dbFoto = FirebaseStorage.getInstance()
-        val idDocumento = Integer.toString(auth.currentUser?.uid?.hashCode()!! + System.currentTimeMillis().toInt())
+        val dbFoto = FirebaseStorage.getInstance()
+         val idDocumento = (auth.currentUser?.uid?.hashCode()!! + System.currentTimeMillis().toInt()).toString()
             incidencia.ID = incidencia.hashCode().toString()
 
         // Insertar incidencia en la BD
@@ -185,7 +185,37 @@ open class Incidencia {
         return actualizadoCorrectamente
     }
     */
+    companion object {
+        fun actualizarIncidencia(incidencia: Incidencia) {
+
+            // Actualiza una incidencia de la BD
+            var actualizadoCorrectamente = false
+            var auth = FirebaseAuth.getInstance()
+            val db = FirebaseFirestore.getInstance()
+
+            // Obtenemos la incidencia a actualizar
+            auth.currentUser?.let {
+                val datos = hashMapOf(
+                    "nombre" to incidencia.nombre,
+                    "descripcion" to incidencia.descripcion,
+                    "prioridad" to incidencia.prioridad,
+                    "fecha" to incidencia.fecha,
+                    "acabada" to incidencia.acabada,
+                    "foto" to incidencia.foto
+                )
+                db.collection("Incidencias").document(incidencia.ID).set(datos)
+                    .addOnSuccessListener {
+                        actualizadoCorrectamente = true
+                        Log.d("Incidencia", "Incidencia actualizada correctamente")
+                    }
+                    .addOnFailureListener {
+                        actualizadoCorrectamente = false
+                        Log.d("Incidencia", "Error al actualizar la incidencia")
+                    }
+            }
+
+        }
+    }
 
 
-
- }
+}

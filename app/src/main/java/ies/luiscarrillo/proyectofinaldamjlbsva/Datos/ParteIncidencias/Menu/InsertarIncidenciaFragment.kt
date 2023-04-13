@@ -6,10 +6,7 @@ import android.app.AlertDialog
 import android.content.Intent
 import android.graphics.Bitmap
 import android.media.MediaScannerConnection
-import android.os.Bundle
-import android.os.Environment
-import android.os.Handler
-import android.os.Looper
+import android.os.*
 import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
@@ -19,6 +16,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.storage.FirebaseStorage
+import com.google.type.DateTime
 import ies.luiscarrillo.proyectofinaldamjlbsva.Datos.ParteIncidencias.Data.Incidencia
 import ies.luiscarrillo.proyectofinaldamjlbsva.R
 import ies.luiscarrillo.proyectofinaldamjlbsva.databinding.FragmentInsertarIncidenciaBinding
@@ -98,6 +96,9 @@ class InsertarIncidenciaFragment : Fragment(R.layout.fragment_insertar_incidenci
 
         // Boton de insertar incidencia
         binding.BInsertarIncidencia.setOnClickListener(){
+            var usuario = FirebaseAuth.getInstance().currentUser
+            var correo = usuario?.email.toString()
+            var nameUser = correo.split("@")[0]
             // Comprobamos que los campos no estén vacíos
             if (binding.TBTituloIncidencia.text.toString() != "" && binding.TBDescripcionIncidencia.text.toString() != "") {
 
@@ -105,7 +106,7 @@ class InsertarIncidenciaFragment : Fragment(R.layout.fragment_insertar_incidenci
                 // Creamos la incidencia
                 val nombre = binding.TBTituloIncidencia.text.toString()
                 val fecha = binding.TBFechaIncidencia.text.toString()
-                val descripcion = binding.TBDescripcionIncidencia.text.toString()
+                val descripcion = binding.TBDescripcionIncidencia.text.toString()  +  " \n Comentario hecho por: " + nameUser
                 val acabada = false
                // val foto = subirFotoFirebase(imagenVarible)
                 incidencia.nombre = nombre
