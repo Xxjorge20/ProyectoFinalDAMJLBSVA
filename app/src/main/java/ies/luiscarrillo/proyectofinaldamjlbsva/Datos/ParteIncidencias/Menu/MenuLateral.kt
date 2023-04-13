@@ -51,10 +51,13 @@ class MenuLateral : AppCompatActivity() {
                     supportFragmentManager.beginTransaction().replace(R.id.fragment_container_view, CasaFragment()).commit()
                     binding.drawer.closeDrawers()
                 }
+                /*
                 R.id.nav_modificarIncidencia -> {
                     supportFragmentManager.beginTransaction().replace(R.id.fragment_container_view, ModificarIncidencia()).commit()
                     binding.drawer.closeDrawers()
                 }
+                */
+
                 R.id.nav_insertarIncidencia -> {
                     supportFragmentManager.beginTransaction().replace(R.id.fragment_container_view, InsertarIncidenciaFragment()).commit()
                     binding.drawer.closeDrawers()

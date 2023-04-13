@@ -126,16 +126,26 @@
         android:id="@+id/textView9"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:text="Has Acabado la Incidencia?"
+        android:layout_marginTop="28dp"
+        android:text="¿Has Acabado la Incidencia?"
         android:textColor="@color/white"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/listPrioridadModificar" />
 
-
+    <CheckBox
+        android:id="@+id/checkBoxSi"
+        android:layout_width="83dp"
+        android:layout_height="33dp"
+        android:layout_marginTop="24dp"
+        android:text="Si"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.286"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView9" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import com.google.firebase.storage.FirebaseStorage
@@ -34,9 +35,16 @@ class ModificarIncidencia : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
     private lateinit  var binding: FragmentModificarIncidenciaBinding
-    enum class acaba{
-        SI,NO
-    }
+    var nombre: String? = null
+    var descripcion: String? = null
+    var fecha: String? = null
+    var prioridad: String? = null
+    var acabada: String? = null
+    var id: String? = null
+    var foto: String? = null
+    var finalizada: Boolean = false
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,12 +61,23 @@ class ModificarIncidencia : Fragment() {
         binding = FragmentModificarIncidenciaBinding.inflate(inflater, container, false)
 
         // Obtencion de los datos a traves de otra activity
-        val nombre = arguments?.getString("nombre")
-        val descripcion = arguments?.getString("descripcion")
-        val fecha = arguments?.getString("fecha")
-        val prioridad = arguments?.getString("prioridad")
-        val acabada = arguments?.getString("acabada")
+        nombre = arguments?.getString("nombre")
+        descripcion = arguments?.getString("descripcion")
+        fecha = arguments?.getString("fecha")
+        prioridad = arguments?.getString("prioridad")
+        acabada = arguments?.getString("acabada")
+        id = arguments?.getString("id")
+        foto = arguments?.getString("foto")
 
+        /*
+        datosIncidencias.nombre,
+        datosIncidencias.fecha,
+        datosIncidencias.descripcion,
+        datosIncidencias.acabada,
+        datosIncidencias.foto,
+        datosIncidencias.prioridad,
+        datosIncidencias.ID
+        * */
 
 
         // Mostrar los datos en el log
@@ -87,14 +106,36 @@ class ModificarIncidencia : Fragment() {
 
         )
 
-        // establezco la prioridad seleccionada
-        binding.listPrioridadModificar.setSelection(listaPrioridadesString.indexOf(prioridad))
+
+        binding.listPrioridadModificar.adapter = android.widget.ArrayAdapter(
+            requireContext(),
+            android.R.layout.simple_list_item_1,
+            // recorro el array de prioridades y la añado a la lista
+            listaPrioridadesString
+
+        )
+
+        // evento click en la lista de prioridades
+        binding.listPrioridadModificar.setOnItemClickListener { parent, view, position, id ->
+            Toast.makeText(requireContext(), "Prioridad seleccionada: ${listaPrioridades[position]}", Toast.LENGTH_SHORT).show()
+            Log.d("Prioridad", listaPrioridades[position].toString())
+
+            // guardo la prioridad seleccionada
+            if (listaPrioridades[position] == Incidencia.Prioridad.ALTA) {
+                prioridad = Incidencia.Prioridad.ALTA.toString()
+            } else if (listaPrioridades[position] == Incidencia.Prioridad.MEDIA) {
+                prioridad = Incidencia.Prioridad.MEDIA.toString()
+            } else if (listaPrioridades[position] == Incidencia.Prioridad.BAJA) {
+                prioridad = Incidencia.Prioridad.BAJA.toString()
+            }
+
+            ocultarTeclado()
+        }
+
 
         // evento click del boton
         binding.BModificarIncidencia.setOnClickListener(){
-            val nombre = binding.TBTituloIncidenciaModificar.text.toString()
-            val descripcion = binding.TBDescripcionIncidencia2Modificar.text.toString()
-            val prioridad = binding.listPrioridadModificar.selectedItem.toString()
+            actualizarIncidencia()
 
         }
 
@@ -108,6 +149,48 @@ class ModificarIncidencia : Fragment() {
 
         // Inflate the layout for this fragment
         return binding.root
+    }
+    // Ocultar el teclado
+    private  fun ocultarTeclado() {
+        val imm = requireActivity().getSystemService(Activity.INPUT_METHOD_SERVICE) as android.view.inputmethod.InputMethodManager
+        var view = requireActivity().currentFocus
+        if (view == null) {
+            view = View(requireActivity())
+        }
+        imm.hideSoftInputFromWindow(view.windowToken, 0)
+    }
+
+
+    private fun actualizarIncidencia() {
+
+
+        nombre = binding.TBTituloIncidenciaModificar.text.toString()
+        descripcion = binding.TBDescripcionIncidencia2Modificar.text.toString()
+
+        finalizada = binding.checkBoxSi.isChecked
+
+
+        val incidencia = Incidencia(
+
+            binding.TBTituloIncidenciaModificar.text.toString(),
+            binding.TBDescripcionIncidencia2Modificar.text.toString(),
+            fecha.toString(),
+            finalizada,
+            foto.toString(),
+            prioridad.toString(),
+            id.toString(),
+
+
+
+        )
+
+        // Actualizo la incidencia
+        Incidencia.actualizarIncidencia(incidencia)
+
+        // regreso al fragmento anterior
+        requireActivity().supportFragmentManager.popBackStack()
+
+
     }
 
     companion object {
@@ -137,5 +220,7 @@ class ModificarIncidencia : Fragment() {
         binding.TBTituloIncidenciaModificar.setTextColor(android.graphics.Color.WHITE)
         binding.TBDescripcionIncidencia2Modificar.setTextColor(android.graphics.Color.WHITE)
     }
+
+
 
 }
