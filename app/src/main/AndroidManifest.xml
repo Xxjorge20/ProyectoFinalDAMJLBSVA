@@ -40,13 +40,7 @@
                 android:value="" />
         </activity>
 
-        <activity
-            android:name="InicioSesion.RegistroActivity"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
+
         <activity
             android:name="InicioSesion.OlvidoPasswordActivity"
             android:exported="false">
@@ -55,13 +49,7 @@
                 android:value="" />
         </activity>
 
-        <activity
-            android:name="ParteUsuarios.InicioActivity"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
+
 
         <!-- Parte de la Aplicacion de Jorge López Bravo -->
         <activity android:name=".Datos.ParteIncidencias.Menu.MenuLateral"
@@ -71,9 +59,7 @@
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
-
         </activity>
-
 
     </application>
 </manifest>

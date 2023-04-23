@@ -1,6 +1,8 @@
 package ies.luiscarrillo.proyectofinaldamjlbsva.Datos.ParteIncidencias.Menu
 
 import InicioSesion.MainActivity
+import InicioSesion.RegistroFragment
+import ParteUsuarios.InicioFragment
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -69,6 +71,16 @@ class MenuLateral : AppCompatActivity() {
                     startActivity(intent)
                     // Cierro la actividad
                     finish()
+                }
+
+                R.id.nav_insertarUsuario -> {
+                    supportFragmentManager.beginTransaction().replace(R.id.fragment_container_view, RegistroFragment()).commit()
+                    binding.drawer.closeDrawers()
+                }
+
+                R.id.nav_verUsuarios -> {
+                    supportFragmentManager.beginTransaction().replace(R.id.fragment_container_view, InicioFragment()).commit()
+                    binding.drawer.closeDrawers()
                 }
             }
 

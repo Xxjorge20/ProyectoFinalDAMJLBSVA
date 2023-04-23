@@ -18,6 +18,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.storage.FirebaseStorage
 import com.google.type.DateTime
 import ies.luiscarrillo.proyectofinaldamjlbsva.Datos.ParteIncidencias.Data.Incidencia
+import ies.luiscarrillo.proyectofinaldamjlbsva.Datos.ParteIncidencias.Menu.MenuLateral
 import ies.luiscarrillo.proyectofinaldamjlbsva.R
 import ies.luiscarrillo.proyectofinaldamjlbsva.databinding.FragmentInsertarIncidenciaBinding
 import java.io.ByteArrayOutputStream
@@ -39,8 +40,8 @@ class InsertarIncidenciaFragment : Fragment(R.layout.fragment_insertar_incidenci
     private val galeria = 1
     private val camara = 2
     private val INCIDENCIAS_IMAGENES = "/incidencias"
-    lateinit var rutaFoto : String
-    lateinit var urlDescargarFoto : String
+    private lateinit var rutaFoto : String
+    private lateinit var urlDescargarFoto : String
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -156,7 +157,7 @@ class InsertarIncidenciaFragment : Fragment(R.layout.fragment_insertar_incidenci
                             Log.i("InsertarIncidencia", "Incidencia insertada correctamente")
 
 
-                            val CasaFragment = Intent(activity, MainActivity::class.java)
+                            val CasaFragment = Intent(activity, MenuLateral::class.java)
                             CasaFragment.putExtra("foto",imagenVarible)
                             startActivity(CasaFragment)
 
@@ -164,7 +165,7 @@ class InsertarIncidenciaFragment : Fragment(R.layout.fragment_insertar_incidenci
                         else
                         {
                             // SIEMPRE ENTRA AQUI
-                            val CasaFragment = Intent(activity, MainActivity::class.java)
+                            val CasaFragment = Intent(activity, MenuLateral::class.java)
                             startActivity(CasaFragment)
                             CasaFragment.putExtra("foto",imagenVarible)
                             // Mostramos un mensaje de error

@@ -102,12 +102,24 @@ class ModificarIncidencia : Fragment() {
         binding.TBTituloIncidenciaModificar.isEnabled = false // Desactivar el campo
         binding.TBDescripcionIncidencia2Modificar.setText(descripcion)
 
+
+
         // cargo la lista de prioridades
         val listaPrioridades = Incidencia.Prioridad.values()
         val listaPrioridadesString = ArrayList<String>()
         for (prioridad in listaPrioridades) {
             listaPrioridadesString.add(prioridad.toString())
         }
+
+        // Establezco la prioridad de la incidencia en el spinner de prioridades de la incidencia a modificar
+        if (prioridad == Incidencia.Prioridad.ALTA.toString()) {
+            binding.listPrioridadModificar.setSelection(0)
+        } else if (prioridad == Incidencia.Prioridad.MEDIA.toString()) {
+            binding.listPrioridadModificar.setSelection(1)
+        } else if (prioridad == Incidencia.Prioridad.BAJA.toString()) {
+            binding.listPrioridadModificar.setSelection(2)
+        }
+
         binding.listPrioridadModificar.adapter = android.widget.ArrayAdapter(
             requireContext(),
             android.R.layout.simple_list_item_1,
@@ -116,14 +128,14 @@ class ModificarIncidencia : Fragment() {
 
         )
 
-
+        /*
         binding.listPrioridadModificar.adapter = android.widget.ArrayAdapter(
             requireContext(),
             android.R.layout.simple_list_item_1,
             // recorro el array de prioridades y la añado a la lista
             listaPrioridadesString
 
-        )
+        )*/
 
         // evento click en la lista de prioridades
         binding.listPrioridadModificar.setOnItemClickListener { parent, view, position, id ->
@@ -148,13 +160,6 @@ class ModificarIncidencia : Fragment() {
             actualizarIncidencia()
 
         }
-
-
-
-
-
-
-
 
 
         // Inflate the layout for this fragment

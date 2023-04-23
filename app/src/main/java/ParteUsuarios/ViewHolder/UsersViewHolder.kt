@@ -33,14 +33,14 @@ class UsersViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             Log.d("Borrar Usuario", "Usuario pulsado")
 
 
-                var usuario = Usuarios(itemsUsuarios.Nombre,itemsUsuarios.email,itemsUsuarios.Apellidos,itemsUsuarios.Privilegios)
-                if (!usuario.BorrarUsuario(itemsUsuarios.email)) {
-                    Log.d("Borrar Usuario", "Usuario borrado correctamente")
+            var usuario = Usuarios(itemsUsuarios.Nombre,itemsUsuarios.email,itemsUsuarios.Apellidos,itemsUsuarios.Privilegios)
+            if (!usuario.BorrarUsuario(itemsUsuarios.email)) {
+                Log.d("Borrar Usuario", "Usuario borrado correctamente")
 
 
-                } else {
-                    Log.d("Borrar Usuario", "Error al borrar el usuario")
-                }
+            } else {
+                Log.d("Borrar Usuario", "Error al borrar el usuario")
+            }
 
 
 
@@ -58,5 +58,5 @@ class UsersViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
 
 
-}
+    }
 }
