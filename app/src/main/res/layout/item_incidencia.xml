@@ -26,7 +26,7 @@
             android:layout_height="112dp"
             android:layout_gravity="center_horizontal"
             android:layout_margin="8dp"
-            android:src="@drawable/ic_baseline_camera" />
+            android:src="@drawable/incidencia" />
 
 
         <LinearLayout

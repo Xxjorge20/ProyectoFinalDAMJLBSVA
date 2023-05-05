@@ -207,6 +207,13 @@ open class Incidencia {
                     .addOnSuccessListener {
                         actualizadoCorrectamente = true
                         Log.d("Incidencia", "Incidencia actualizada correctamente")
+                        Log.d("Incidencia", incidencia.ID)
+                        Log.d("Incidencia", incidencia.nombre)
+                        Log.d("Incidencia", incidencia.descripcion)
+                        Log.d("Incidencia", incidencia.prioridad)
+                        Log.d("Incidencia", incidencia.fecha)
+                        Log.d("Incidencia", incidencia.acabada.toString())
+                        Log.d("Incidencia", incidencia.foto)
                     }
                     .addOnFailureListener {
                         actualizadoCorrectamente = false

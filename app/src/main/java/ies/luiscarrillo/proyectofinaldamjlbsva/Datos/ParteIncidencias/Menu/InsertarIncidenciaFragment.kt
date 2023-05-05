@@ -55,6 +55,8 @@ class InsertarIncidenciaFragment : Fragment(R.layout.fragment_insertar_incidenci
         _binding = FragmentInsertarIncidenciaBinding.inflate(inflater, container, false)
         val view = binding.root
 
+        activity?.setTitle("Insertar Incidencias")
+
         // cargo la lista de prioridades
         val listaPrioridades = Incidencia.Prioridad.values()
         val listaPrioridadesString = ArrayList<String>()
@@ -144,7 +146,7 @@ class InsertarIncidenciaFragment : Fragment(R.layout.fragment_insertar_incidenci
                     }
                 }
                 val contador = 0
-                // cuando pasen 1 segundos, se inserta la incidencia para que de tiempo
+                // cuando pasen 1 segundos, se inserta la incidencia para que de tiempo a subir la foto a firebase
                 Handler(Looper.getMainLooper()).postDelayed({
                     if (contador == 0) {
                         // Insertamos la incidencia en la base de datos
@@ -159,14 +161,18 @@ class InsertarIncidenciaFragment : Fragment(R.layout.fragment_insertar_incidenci
 
                             val CasaFragment = Intent(activity, MenuLateral::class.java)
                             CasaFragment.putExtra("foto",imagenVarible)
+                            CasaFragment.putExtra("correo",correo)
+                            CasaFragment.putExtra("nombre",nameUser)
                             startActivity(CasaFragment)
 
                         }
                         else
                         {
-                            // SIEMPRE ENTRA AQUI
+                            // Si da error al insertar la incidencia, mostramos un mensaje de error
                             val CasaFragment = Intent(activity, MenuLateral::class.java)
                             startActivity(CasaFragment)
+                            CasaFragment.putExtra("correo",correo)
+                            CasaFragment.putExtra("nombre",nameUser)
                             CasaFragment.putExtra("foto",imagenVarible)
                             // Mostramos un mensaje de error
                             Toast.makeText(requireActivity().applicationContext, "Error al insertar la incidencia", Toast.LENGTH_SHORT).show()
@@ -176,6 +182,13 @@ class InsertarIncidenciaFragment : Fragment(R.layout.fragment_insertar_incidenci
                     }
                 }, 1000)
 
+            }
+            else
+            {
+                // Mostramos un mensaje de error
+                Toast.makeText(requireActivity().applicationContext, "Rellene todos los campos", Toast.LENGTH_SHORT).show()
+                Log.e("InsertarIncidencia", "Rellene todos los campos")
+                ocultarTeclado()
             }
         }
         return view

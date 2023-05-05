@@ -44,6 +44,7 @@ class CasaFragment : Fragment() {
     ): View? {
       var vista: View = inflater.inflate(R.layout.fragment_casa2, container, false)
 
+        activity?.setTitle("Incidencias")
         listaIncidencias = ArrayList()
         recicler =  vista.findViewById(R.id.recycler)
         recicler?.layoutManager = LinearLayoutManager(context)

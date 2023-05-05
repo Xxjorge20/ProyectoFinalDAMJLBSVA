@@ -6,9 +6,12 @@ import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import ies.luiscarrillo.proyectofinaldamjlbsva.Datos.ParteIncidencias.ViewHolder.ViewHolder
 import ies.luiscarrillo.proyectofinaldamjlbsva.R
@@ -56,21 +59,35 @@ class adapterIncidencas(private var incidencias: ArrayList<DatosIncidencias>) : 
         holder.descripcion.setTextColor(android.graphics.Color.WHITE)
         holder.fecha.setTextColor(android.graphics.Color.WHITE)
         holder.bind(incidencias[position])
+
+        val db = FirebaseFirestore.getInstance()
+        val correo = auth.currentUser?.email.toString()
+
         holder.itemView.setOnLongClickListener(){
+            db.collection("usuarios").document(correo).get().addOnSuccessListener { documentSnapshot ->
+                if (documentSnapshot.exists()) {
+                    val privilegios = documentSnapshot.getString("privilegios")
 
-            Log.i("MostarMenu", "Mostrando menu")
-            if (!DialogoModificarBorrar(incidencia, holder)) {
-                Log.i("MostarMenu", "Modificando incidencia")
-            } else {
-                Log.i("MostarMenu", "Borrando incidencia")
+                    when (privilegios) {
+                        "user" -> {
+                            // No tiene permisos, mostrar toast
+
+                            Toast.makeText(holder.itemView.context, "No tienes permisos para modificar y borrar incidencias", Toast.LENGTH_SHORT).show()
+                        }
+                        "gestor", "admin" -> {
+                            // Tiene permisos, mostrar opciones
+                            if (!DialogoModificarBorrar(incidencia, holder)) {
+                                Log.i("MostarMenu", "Modificando incidencia")
+                            } else {
+                                Log.i("MostarMenu", "Borrando incidencia")
+                            }
+                        }
+                    }
+                }
             }
-
             true
         }
 
-        holder.imagen.setOnClickListener(){
-           Log.i("Imagen", "Pulsada")
-        }
 
     }
 
@@ -185,6 +202,11 @@ class adapterIncidencas(private var incidencias: ArrayList<DatosIncidencias>) : 
         dialog.show()
         return respuesta
     }
+
+
+
+
+
 
 
 

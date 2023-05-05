@@ -20,11 +20,13 @@ import com.google.firebase.firestore.FirebaseFirestore
 import ies.luiscarrillo.proyectofinaldamjlbsva.R
 import ies.luiscarrillo.proyectofinaldamjlbsva.databinding.ActivityInicioBinding
 import ies.luiscarrillo.proyectofinaldamjlbsva.databinding.FragmentInsertarIncidenciaBinding
+import ies.luiscarrillo.proyectofinaldamjlbsva.databinding.MenulateralBinding
 
 class InicioFragment : Fragment() {
 
     private lateinit var binding: ActivityInicioBinding
     private lateinit var bindingJorge: FragmentInsertarIncidenciaBinding
+    private lateinit var bindingMenu : MenulateralBinding
     private lateinit var adapterUsuarios: Adapter
     private lateinit var listaUsuarios: ArrayList<ItemsUsuarios>
     private var auth = FirebaseAuth.getInstance()
@@ -45,6 +47,8 @@ class InicioFragment : Fragment() {
 
         // Inicializamos la lista
         listaUsuarios = ArrayList()
+        listaUsuarios.clear()
+        activity?.setTitle("Ver Usuarios")
 
         arguments?.let {
             val correo = it.getString("correo")
@@ -56,14 +60,15 @@ class InicioFragment : Fragment() {
                             if (documentSnapshot.exists()) {
                                 val privilegios = documentSnapshot.getString("privilegios")
 
-                                if (privilegios == "admin") {
-                                    binding.mostrarUsuario.isInvisible = false
-                                    binding.registro.isInvisible = false
-                                    binding.photo.isInvisible = false
-                                    bindingJorge.BInsertarIncidencia.isEnabled = false
-                                }
+
                                 if (privilegios == "user") {
-                                    binding.mostrarUsuario.isInvisible = false
+
+                                    // Menu
+                                    bindingMenu.navView.menu.findItem(R.id.nav_verUsuarios).isVisible = false
+                                    bindingMenu.navView.menu.findItem(R.id.nav_insertarUsuario).isVisible = false
+
+
+                                    binding.mostrarUsuario.isInvisible = true
                                     binding.registro.isInvisible = true
                                     binding.photo.isInvisible = true
                                 }
@@ -83,6 +88,7 @@ class InicioFragment : Fragment() {
 
         // Boton mostrar todos los usuarios
         binding.mostrarUsuario.setOnClickListener {
+            listaUsuarios.clear()
             cargarDatos()
         }
 
@@ -102,6 +108,7 @@ class InicioFragment : Fragment() {
             .get()
             .addOnSuccessListener { result ->
                 for (document in result) {
+
                     Log.d("Añadiendo Usuarios", "${document.id} => ${document.data}")
                     val usuario = document.toObject(ItemsUsuarios::class.java)
                     listaUsuarios.add(usuario)

@@ -113,12 +113,17 @@
         android:id="@+id/BInsertarIncidencia"
         android:layout_width="297dp"
         android:layout_height="52dp"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="84dp"
         android:background="@drawable/boton_neon"
         android:text="Insertar Incidencia"
         android:textColor="@color/white"
-        app:layout_constraintTop_toBottomOf="@+id/BCamaraGaleria"
-        tools:layout_editor_absoluteX="57dp" />
+        app:flow_verticalAlign="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/BCamaraGaleria" />
+
+
+
 
     <ListView
         android:id="@+id/listPrioridad"
@@ -130,6 +135,10 @@
         app:layout_constraintHorizontal_bias="0.454"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+
+
+
 
     <TextView
         android:id="@+id/textView3"

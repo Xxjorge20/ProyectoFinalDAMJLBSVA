@@ -16,6 +16,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import ies.luiscarrillo.proyectofinaldamjlbsva.Datos.ParteIncidencias.Menu.MenuLateral
 import ies.luiscarrillo.proyectofinaldamjlbsva.databinding.ActivityRegistroBinding
 
 class RegistroFragment : Fragment() {
@@ -73,13 +74,14 @@ class RegistroFragment : Fragment() {
                                 "privilegios" to usuario.privi,
                             ))
 
-                        val intent = Intent(requireContext(), InicioFragment::class.java).apply {
+                        val intent = Intent(requireContext(), MenuLateral::class.java).apply {
                             putExtra("nombreusuario", binding.Nombre.text.toString())
                         }
                         startActivity(intent)
                     }
                     else {
                         Toast.makeText(requireContext(),"Error en el registro del nuevo usuario", Toast.LENGTH_SHORT).show()
+                        Log.d("Registro", it.exception.toString())
                     }
                 }
             }

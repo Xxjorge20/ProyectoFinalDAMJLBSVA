@@ -95,6 +95,9 @@ class ModificarIncidencia : Fragment() {
         Log.i("ModificarIncidencia", "Descripcion: $descripcion")
         Log.i("ModificarIncidencia", "Fecha: $fecha")
         Log.i("ModificarIncidencia", "Prioridad: $prioridad")
+        Log.i("ModificarIncidencia", "Acabada: $acabada")
+        Log.i("ModificarIncidencia", "ID: $id")
+        Log.i("ModificarIncidencia", "Foto: $foto")
 
         // Limpiar los campos
         resetear()
@@ -205,7 +208,10 @@ class ModificarIncidencia : Fragment() {
         Incidencia.actualizarIncidencia(incidencia)
 
         // vuelvo a la activity principal
+        val email = FirebaseAuth.getInstance().currentUser?.email
         val intent = Intent(requireContext(), MenuLateral::class.java)
+        intent.putExtra("nombre", usuario)
+        intent.putExtra("correo", email)
         startActivity(intent)
 
 
