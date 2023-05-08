@@ -9,9 +9,16 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.type.DateTime
 import ies.luiscarrillo.proyectofinaldamjlbsva.Datos.ParteIncidencias.Adapter.adapterIncidencas
 import ies.luiscarrillo.proyectofinaldamjlbsva.Datos.ParteIncidencias.Data.DatosIncidencias
 import ies.luiscarrillo.proyectofinaldamjlbsva.R
+import org.checkerframework.checker.units.qual.Current
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Date
+import java.util.Locale
+import java.util.TimeZone
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -42,14 +49,20 @@ class CasaFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        activity?.setTitle("Incidencias")
       var vista: View = inflater.inflate(R.layout.fragment_casa2, container, false)
 
-        activity?.setTitle("Incidencias")
+
         listaIncidencias = ArrayList()
         recicler =  vista.findViewById(R.id.recycler)
         recicler?.layoutManager = LinearLayoutManager(context)
         // Cargar datos
         cargarDatos()
+
+
+
+
+
         recicler?.adapter = adapterIncidencas(listaIncidencias)
 
         return vista
@@ -66,8 +79,18 @@ class CasaFragment : Fragment() {
                 for (document in result) {
                     Log.d("AñadiendoIncidencias", "${document.id} => ${document.data}")
                     val incidencia = document.toObject(DatosIncidencias::class.java)
+
+
                     listaIncidencias.add(incidencia)
+
+
+
                 }
+
+                // Ordeno la lista de incidencias por fecha de forma descendente (la más reciente primero)
+                listaIncidencias.sortByDescending { it.fecha }
+
+
               var adapter = adapterIncidencas(listaIncidencias)
                 recicler?.adapter = adapter
             }
@@ -95,6 +118,7 @@ class CasaFragment : Fragment() {
                 }
             }
     }
+
 
 
 

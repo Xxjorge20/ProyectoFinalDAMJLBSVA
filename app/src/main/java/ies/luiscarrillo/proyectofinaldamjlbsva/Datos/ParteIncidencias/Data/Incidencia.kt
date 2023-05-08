@@ -126,32 +126,48 @@ open class Incidencia {
     }
     */
     // Borra una incidencia de la BD
-    fun BorrarIncidencia(incidencia: String) :Boolean
-    {
+    fun BorrarIncidencia(incidencia: String): Boolean {
         var borradoCorrectamente = false
-            val auth = FirebaseAuth.getInstance()
-            val db = FirebaseFirestore.getInstance()
-            auth.currentUser?.let {
-                db.collection("Incidencias").whereEqualTo("ID", incidencia).get()
-                    .addOnSuccessListener { documents ->
-                        for (document in documents) {
-                            db.collection("Incidencias").document(document.id).delete()
-                                .addOnSuccessListener {
-                                    borradoCorrectamente = true
-                                    Log.d("Incidencia", "Incidencia borrada correctamente")
+        val auth = FirebaseAuth.getInstance()
+        val db = FirebaseFirestore.getInstance()
+        auth.currentUser?.let {
+            db.collection("Incidencias").whereEqualTo("ID", incidencia).get()
+                .addOnSuccessListener { documents ->
+                    for (document in documents) {
+                        // Eliminar la incidencia en la base de datos
+                        db.collection("Incidencias").document(document.id).delete()
+                            .addOnSuccessListener {
+                                borradoCorrectamente = true
+                                Log.d("BorrarIncidencia", "Incidencia borrada correctamente")
+
+                                // Obtener el nombre de la imagen de la incidencia
+                                val imageName = document.getString("nombre") + ".jpg"
+
+                                // Obtener la referencia a la imagen en el Storage
+                                val storage = FirebaseStorage.getInstance()
+                                val storageRef = storage.reference
+                                val imageRef = storageRef.child("FotosIncidencia/$imageName")
+
+                                // Eliminar la imagen en el Storage
+                                imageRef.delete().addOnSuccessListener {
+                                    Log.d("BorrarIncidencia", "Imagen eliminada correctamente")
+                                }.addOnFailureListener { exception ->
+                                    Log.w("BorrarIncidencia", "Error al eliminar la imagen", exception)
                                 }
-                                .addOnFailureListener {
-                                    borradoCorrectamente = false
-                                    Log.d("Incidencia", "Error al borrar la incidencia")
-                                }
-                        }
+                            }
+                            .addOnFailureListener {
+                                borradoCorrectamente = false
+                                Log.d("BorrarIncidencia", "Error al borrar la incidencia")
+                            }
                     }
-                    .addOnFailureListener { exception ->
-                        Log.d("Incidencia", "Error al obtener la incidencia", exception)
-                    }
-            }
-            return borradoCorrectamente
+                }
+                .addOnFailureListener { exception ->
+                    Log.d("BorrarIncidencia", "Error al obtener la incidencia", exception)
+                }
+        }
+        return borradoCorrectamente
     }
+
 
     // Actualiza una incidencia de la BD
     /*

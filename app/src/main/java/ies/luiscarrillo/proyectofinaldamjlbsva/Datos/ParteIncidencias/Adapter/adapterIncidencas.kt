@@ -21,6 +21,7 @@ import ies.luiscarrillo.proyectofinaldamjlbsva.Datos.ParteIncidencias.Menu.MenuL
 import ies.luiscarrillodesotomayor.gestionincidencias.Menu.ModificarIncidencia
 
 
+
 class adapterIncidencas(private var incidencias: ArrayList<DatosIncidencias>) : RecyclerView.Adapter<ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -46,6 +47,7 @@ class adapterIncidencas(private var incidencias: ArrayList<DatosIncidencias>) : 
                 Log.i("Imagen", "Imagen cargada")
             }.addOnFailureListener {
                 // Handle any errors
+                holder.imagen.setImageResource(R.drawable.incidencia)
                 Log.i("Imagen", "Error al cargar la imagen")
             }
         }
@@ -53,6 +55,10 @@ class adapterIncidencas(private var incidencias: ArrayList<DatosIncidencias>) : 
 
         holder.titulo.text = incidencia.nombre
         holder.descripcion.text = incidencia.descripcion
+
+
+
+
         holder.fecha.text = incidencia.fecha
         // Establecimiento del color de los diferentes textos
         holder.titulo.setTextColor(android.graphics.Color.WHITE)
@@ -64,31 +70,45 @@ class adapterIncidencas(private var incidencias: ArrayList<DatosIncidencias>) : 
         val correo = auth.currentUser?.email.toString()
 
         holder.itemView.setOnLongClickListener(){
-            db.collection("usuarios").document(correo).get().addOnSuccessListener { documentSnapshot ->
-                if (documentSnapshot.exists()) {
-                    val privilegios = documentSnapshot.getString("privilegios")
-
-                    when (privilegios) {
-                        "user" -> {
-                            // No tiene permisos, mostrar toast
-
-                            Toast.makeText(holder.itemView.context, "No tienes permisos para modificar y borrar incidencias", Toast.LENGTH_SHORT).show()
-                        }
-                        "gestor", "admin" -> {
-                            // Tiene permisos, mostrar opciones
-                            if (!DialogoModificarBorrar(incidencia, holder)) {
-                                Log.i("MostarMenu", "Modificando incidencia")
-                            } else {
-                                Log.i("MostarMenu", "Borrando incidencia")
-                            }
-                        }
-                    }
-                }
-            }
+            establecerPrivilegios(db, correo, holder, incidencia)
             true
         }
 
 
+    }
+
+    private fun establecerPrivilegios(
+        db: FirebaseFirestore,
+        correo: String,
+        holder: ViewHolder,
+        incidencia: DatosIncidencias
+    ) {
+        db.collection("usuarios").document(correo).get().addOnSuccessListener { documentSnapshot ->
+            if (documentSnapshot.exists()) {
+                val privilegios = documentSnapshot.getString("privilegios")
+
+                when (privilegios) {
+                    "user" -> {
+                        // No tiene permisos, mostrar toast
+
+                        Toast.makeText(
+                            holder.itemView.context,
+                            "No tienes permisos para modificar y borrar incidencias",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+
+                    "gestor", "admin" -> {
+                        // Tiene permisos, mostrar opciones
+                        if (!DialogoModificarBorrar(incidencia, holder)) {
+                            Log.i("MostarMenu", "Modificando incidencia")
+                        } else {
+                            Log.i("MostarMenu", "Borrando incidencia")
+                        }
+                    }
+                }
+            }
+        }
     }
 
     override fun getItemCount(): Int {
@@ -167,7 +187,6 @@ class adapterIncidencas(private var incidencias: ArrayList<DatosIncidencias>) : 
         builder.setPositiveButton("Confirmar") { dialog, which ->
 
             respuesta = true
-            // Creo un objeto de la clase Incidencia para poder borrar la incidencia
             Incidencia(
                 datosIncidencias.nombre,
                 datosIncidencias.fecha,
@@ -178,14 +197,17 @@ class adapterIncidencas(private var incidencias: ArrayList<DatosIncidencias>) : 
                 datosIncidencias.ID
             ).BorrarIncidencia(datosIncidencias.ID) // Llamo a la funcion de borrar incidencia
 
-            // Borro la incidencia de la lista y actualizo el recycler view
             val position = incidencias.indexOf(datosIncidencias)
             incidencias.removeAt(position)
             notifyItemRemoved(position)
             notifyItemRangeChanged(position, incidencias.size)
             notifyDataSetChanged()
+            Toast.makeText(
+                holder.itemView.context,
+                "Incidencia borrada correctamente",
+                Toast.LENGTH_SHORT
+            ).show()
 
-            Log.d("Borrar Incidencia", "Incidencia borrada correctamente")
             return@setPositiveButton
         }
 

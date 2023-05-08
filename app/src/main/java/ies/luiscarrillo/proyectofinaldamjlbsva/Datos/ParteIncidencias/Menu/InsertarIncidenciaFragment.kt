@@ -25,6 +25,8 @@ import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
+import java.text.SimpleDateFormat
+import java.time.Instant
 import java.util.*
 
 
@@ -54,6 +56,9 @@ class InsertarIncidenciaFragment : Fragment(R.layout.fragment_insertar_incidenci
         var incidencia = Incidencia("","","",false,"Baja", urlDescargarFoto)
         _binding = FragmentInsertarIncidenciaBinding.inflate(inflater, container, false)
         val view = binding.root
+
+        binding.TBFechaIncidencia.setText(obtenerFechaHoraActual())
+        binding.TBFechaIncidencia.isEnabled = false
 
         activity?.setTitle("Insertar Incidencias")
 
@@ -105,82 +110,7 @@ class InsertarIncidenciaFragment : Fragment(R.layout.fragment_insertar_incidenci
             // Comprobamos que los campos no estén vacíos
             if (binding.TBTituloIncidencia.text.toString() != "" && binding.TBDescripcionIncidencia.text.toString() != "") {
 
-
-                // Creamos la incidencia
-                val nombre = binding.TBTituloIncidencia.text.toString()
-                val fecha = binding.TBFechaIncidencia.text.toString()
-                val descripcion = binding.TBDescripcionIncidencia.text.toString()  +  " \n Comentario hecho por: " + nameUser
-                val acabada = false
-               // val foto = subirFotoFirebase(imagenVarible)
-                incidencia.nombre = nombre
-                incidencia.fecha = fecha
-                incidencia.descripcion = descripcion
-                incidencia.acabada = acabada
-                incidencia.foto = urlDescargarFoto
-
-
-
-                // Subir la foto a Firebase Storage ---> Pasar a funcion
-                val auth = FirebaseAuth.getInstance()
-                auth.currentUser?.let {
-                    val storage = FirebaseStorage.getInstance()
-                    // Ruta donde guardare la imagen en la base de datos
-                    val storageReference = storage.getReference("FotosIncidencia/")
-                    // Nombre de la imagen que guardare en la base de datos
-                    val imageRef = storageReference.child(incidencia.nombre + ".jpg")
-                    val baos = ByteArrayOutputStream()
-                    imagenVarible.compress(Bitmap.CompressFormat.JPEG, 100, baos)
-                    val data = baos.toByteArray()
-                    val uploadTask = imageRef.putBytes(data)
-                    uploadTask.addOnFailureListener {
-                        Toast.makeText(requireActivity().applicationContext, "Error al subir la imagen", Toast.LENGTH_SHORT).show()
-                    }.addOnSuccessListener { taskSnapshot ->
-
-                        taskSnapshot.storage.downloadUrl.addOnSuccessListener {
-                            incidencia.foto = it.toString()
-                            Toast.makeText(requireActivity().applicationContext, "Imagen subida exitosamente", Toast.LENGTH_SHORT).show()
-                            Log.i("UrlDescargarFoto", it.toString())
-                        }.addOnFailureListener {
-                            Toast.makeText(requireActivity().applicationContext, "Error al obtener la URL de descarga", Toast.LENGTH_SHORT).show()
-                        }
-                    }
-                }
-                val contador = 0
-                // cuando pasen 1 segundos, se inserta la incidencia para que de tiempo a subir la foto a firebase
-                Handler(Looper.getMainLooper()).postDelayed({
-                    if (contador == 0) {
-                        // Insertamos la incidencia en la base de datos
-                        if (!incidencia.InsertarIncidencia(incidencia)) {
-
-                            binding.TBTituloIncidencia.setText("")
-                            binding.TBFechaIncidencia.setText("")
-                            binding.TBDescripcionIncidencia.setText("")
-                            Toast.makeText(requireActivity().applicationContext, "Incidencia insertada correctamente", Toast.LENGTH_SHORT).show()
-                            Log.i("InsertarIncidencia", "Incidencia insertada correctamente")
-
-
-                            val CasaFragment = Intent(activity, MenuLateral::class.java)
-                            CasaFragment.putExtra("foto",imagenVarible)
-                            CasaFragment.putExtra("correo",correo)
-                            CasaFragment.putExtra("nombre",nameUser)
-                            startActivity(CasaFragment)
-
-                        }
-                        else
-                        {
-                            // Si da error al insertar la incidencia, mostramos un mensaje de error
-                            val CasaFragment = Intent(activity, MenuLateral::class.java)
-                            startActivity(CasaFragment)
-                            CasaFragment.putExtra("correo",correo)
-                            CasaFragment.putExtra("nombre",nameUser)
-                            CasaFragment.putExtra("foto",imagenVarible)
-                            // Mostramos un mensaje de error
-                            Toast.makeText(requireActivity().applicationContext, "Error al insertar la incidencia", Toast.LENGTH_SHORT).show()
-                            Log.e("InsertarIncidencia", "Error al insertar la incidencia")
-                            ocultarTeclado()
-                        }
-                    }
-                }, 1000)
+                insertarIncidencia(nameUser, incidencia, correo)
 
             }
             else
@@ -194,7 +124,108 @@ class InsertarIncidenciaFragment : Fragment(R.layout.fragment_insertar_incidenci
         return view
     }
 
+    private fun insertarIncidencia(
+        nameUser: String,
+        incidencia: Incidencia,
+        correo: String
+    ) {
+        // Obtener la fecha actual del sistema y guardarla en la incidencia
+        //val fechaActual = Calendar.getInstance().time
 
+        // Creamos la incidencia
+        val nombre = binding.TBTituloIncidencia.text.toString()
+        val fecha = binding.TBFechaIncidencia.text.toString()
+        val descripcion =
+            binding.TBDescripcionIncidencia.text.toString() + " \n Comentario hecho por: " + nameUser
+        val acabada = false
+        // val foto = subirFotoFirebase(imagenVarible)
+        incidencia.nombre = nombre
+        incidencia.fecha = fecha
+        incidencia.descripcion = descripcion
+        incidencia.acabada = acabada
+        incidencia.foto = urlDescargarFoto
+
+
+        // Subir la foto a Firebase Storage ---> Pasar a funcion
+        val auth = FirebaseAuth.getInstance()
+        auth.currentUser?.let {
+            val storage = FirebaseStorage.getInstance()
+            // Ruta donde guardare la imagen en la base de datos
+            val storageReference = storage.getReference("FotosIncidencia/")
+            // Nombre de la imagen que guardare en la base de datos
+            val imageRef = storageReference.child(incidencia.nombre + ".jpg")
+            val baos = ByteArrayOutputStream()
+            imagenVarible.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+            val data = baos.toByteArray()
+            val uploadTask = imageRef.putBytes(data)
+            uploadTask.addOnFailureListener {
+                Toast.makeText(
+                    requireActivity().applicationContext,
+                    "Error al subir la imagen",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }.addOnSuccessListener { taskSnapshot ->
+
+                taskSnapshot.storage.downloadUrl.addOnSuccessListener {
+                    incidencia.foto = it.toString()
+                    Toast.makeText(
+                        requireActivity().applicationContext,
+                        "Imagen subida exitosamente",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    Log.i("UrlDescargarFoto", it.toString())
+                }.addOnFailureListener {
+                    Toast.makeText(
+                        requireActivity().applicationContext,
+                        "Error al obtener la URL de descarga",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+        }
+        val contador = 0
+        // cuando pasen 1 segundos, se inserta la incidencia para que de tiempo a subir la foto a firebase
+        Handler(Looper.getMainLooper()).postDelayed({
+            if (contador == 0) {
+                // Insertamos la incidencia en la base de datos
+                if (!incidencia.InsertarIncidencia(incidencia)) {
+
+                    binding.TBTituloIncidencia.setText("")
+                    binding.TBFechaIncidencia.setText("")
+                    binding.TBDescripcionIncidencia.setText("")
+                    Toast.makeText(
+                        requireActivity().applicationContext,
+                        "Incidencia insertada correctamente",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    Log.i("InsertarIncidencia", "Incidencia insertada correctamente")
+
+
+                    val CasaFragment = Intent(activity, MenuLateral::class.java)
+                    CasaFragment.putExtra("foto", imagenVarible)
+                    CasaFragment.putExtra("correo", correo)
+                    CasaFragment.putExtra("nombre", nameUser)
+                    startActivity(CasaFragment)
+
+                } else {
+                    // Si da error al insertar la incidencia, mostramos un mensaje de error
+                    val CasaFragment = Intent(activity, MenuLateral::class.java)
+                    startActivity(CasaFragment)
+                    CasaFragment.putExtra("correo", correo)
+                    CasaFragment.putExtra("nombre", nameUser)
+                    CasaFragment.putExtra("foto", imagenVarible)
+                    // Mostramos un mensaje de error
+                    Toast.makeText(
+                        requireActivity().applicationContext,
+                        "Error al insertar la incidencia",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    Log.e("InsertarIncidencia", "Error al insertar la incidencia")
+                    ocultarTeclado()
+                }
+            }
+        }, 1000)
+    }
 
 
     override fun onDestroyView() {
@@ -306,5 +337,21 @@ class InsertarIncidenciaFragment : Fragment(R.layout.fragment_insertar_incidenci
     }
 
 
+    // Funcion para obtener la fecha actual
+    fun obtenerFechaHoraActual(): String {
+        val timeZone = TimeZone.getTimeZone("Europe/Madrid")
+        val dateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
+        dateFormat.timeZone = timeZone
+        val fechaHoraActual = Date()
+        return dateFormat.format(fechaHoraActual)
+    }
+
+    fun formatearFecha(fecha: String): String {
+        val formatoActual = SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.ENGLISH)
+        val fechaActual = formatoActual.parse(fecha)
+
+        val formatoNuevo = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale("es", "ES"))
+        return formatoNuevo.format(fechaActual)
+    }
 
 }

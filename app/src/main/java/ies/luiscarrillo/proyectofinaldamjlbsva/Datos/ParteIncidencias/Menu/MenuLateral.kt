@@ -2,6 +2,7 @@ package ies.luiscarrillo.proyectofinaldamjlbsva.Datos.ParteIncidencias.Menu
 
 import InicioSesion.MainActivity
 import InicioSesion.RegistroFragment
+import MenuConjunto.AcercaDe
 import MenuConjunto.Configuracion
 import ParteUsuarios.InicioFragment
 import android.content.Intent
@@ -88,6 +89,11 @@ class MenuLateral : AppCompatActivity() {
 
                 R.id.nav_configuracion -> {
                     supportFragmentManager.beginTransaction().replace(R.id.fragment_container_view, Configuracion()).commit()
+                    binding.drawer.closeDrawers()
+                }
+
+                R.id.nav_acercaDe -> {
+                    supportFragmentManager.beginTransaction().replace(R.id.fragment_container_view, AcercaDe()).commit()
                     binding.drawer.closeDrawers()
                 }
 
