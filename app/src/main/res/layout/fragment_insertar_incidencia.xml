@@ -124,11 +124,12 @@
 
 
         <ListView
+
             android:id="@+id/listPrioridad"
-            android:layout_width="400dp"
-            android:layout_height="50dp"
+            android:layout_width="match_parent"
+            android:layout_height="139dp"
             android:layout_marginTop="20dp"
-            android:background="@color/white"
+            android:background="#00FFFFFF"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.454"
             app:layout_constraintStart_toStartOf="parent"
@@ -151,10 +152,10 @@
 
         <ListView
             android:id="@+id/listTipoIncidencia"
-            android:layout_width="400dp"
-            android:layout_height="50dp"
+            android:layout_width="match_parent"
+            android:layout_height="139dp"
             android:layout_marginTop="20dp"
-            android:background="@color/white"
+            android:background="#00FFFFFF"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
