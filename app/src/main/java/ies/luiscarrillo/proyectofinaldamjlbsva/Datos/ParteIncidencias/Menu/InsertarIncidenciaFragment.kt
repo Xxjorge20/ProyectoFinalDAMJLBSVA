@@ -53,7 +53,7 @@ class InsertarIncidenciaFragment : Fragment(R.layout.fragment_insertar_incidenci
         urlDescargarFoto = ""
         data = ByteArray(0)
         imagenVarible  = Bitmap.createBitmap(100,100, Bitmap.Config.ARGB_8888)
-        var incidencia = Incidencia("","","",false,"Baja", urlDescargarFoto)
+        var incidencia = Incidencia("","","",false,"Baja","", urlDescargarFoto,)
         _binding = FragmentInsertarIncidenciaBinding.inflate(inflater, container, false)
         val view = binding.root
 
@@ -68,6 +68,7 @@ class InsertarIncidenciaFragment : Fragment(R.layout.fragment_insertar_incidenci
         for (prioridad in listaPrioridades) {
             listaPrioridadesString.add(prioridad.toString())
         }
+
         binding.listPrioridad.adapter = android.widget.ArrayAdapter(
             requireContext(),
             android.R.layout.simple_list_item_1,
@@ -92,6 +93,45 @@ class InsertarIncidenciaFragment : Fragment(R.layout.fragment_insertar_incidenci
 
             ocultarTeclado()
         }
+
+
+        // cargo la lista de prioridades
+        val tipoLista = Incidencia.tipoIncidencia.values()
+        val listaTipo = ArrayList<String>()
+        for (tipo in tipoLista) {
+            listaTipo.add(tipo.toString())
+        }
+
+        binding.listTipoIncidencia.adapter = android.widget.ArrayAdapter(
+            requireContext(),
+            android.R.layout.simple_list_item_1,
+            // recorro el array de prioridades y la añado a la lista
+            listaTipo
+
+        )
+
+
+        // evento click en la lista de prioridades
+        binding.listTipoIncidencia.setOnItemClickListener { parent, view, position, id ->
+            Toast.makeText(requireContext(), "Tipo seleccionada: ${tipoLista[position]}", Toast.LENGTH_SHORT).show()
+            Log.d("Tipo", tipoLista[position].toString())
+
+            // guardo la prioridad seleccionada
+            if (tipoLista[position] == Incidencia.tipoIncidencia.Informaticas) {
+                incidencia.tipo = Incidencia.tipoIncidencia.Informaticas.toString()
+            } else if (tipoLista[position] == Incidencia.tipoIncidencia.Mantenimiento) {
+                incidencia.tipo = Incidencia.tipoIncidencia.Mantenimiento.toString()
+            } else if (tipoLista[position] == Incidencia.tipoIncidencia.Electrico) {
+                incidencia.tipo = Incidencia.tipoIncidencia.Electrico.toString()
+            }
+            else if (tipoLista[position] == Incidencia.tipoIncidencia.Otros) {
+                incidencia.tipo = Incidencia.tipoIncidencia.Otros.toString()
+            }
+
+            ocultarTeclado()
+        }
+
+
 
 
 

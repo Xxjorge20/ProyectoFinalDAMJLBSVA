@@ -12,7 +12,11 @@ open class Incidencia {
         BAJA, MEDIA, ALTA
     }
 
-    // Enumeracion de Roles y permisos (PARTE DE SERGIO VILLAR)
+    enum class tipoIncidencia {
+        Informaticas, Mantenimiento, Electrico,Otros
+    }
+
+
 
     // Miembros de la clase Incidencia
      var nombre: String = ""
@@ -21,6 +25,7 @@ open class Incidencia {
      var acabada: Boolean = false
      var foto: String = ""
      var prioridad: String = ""
+     var tipo: String = ""
      private var ID: String = ""
 
 
@@ -31,6 +36,7 @@ open class Incidencia {
         descripcion: String,
         acabada: Boolean,
         prioridad: String,
+        tipo :String,
         foto: String
     ) {
         this.nombre = nombre
@@ -38,17 +44,19 @@ open class Incidencia {
         this.descripcion = descripcion
         this.acabada = acabada
         this.prioridad = prioridad.toString()
+        this.tipo = tipo
         this.foto = foto
     }
 
     // Constructor de la clase Incidencia para Firebase
-     constructor(nombre: String, descripcion: String, fecha: String, acabada: Boolean, foto: String,prioridad: String, id: String) {
+     constructor(nombre: String, descripcion: String, fecha: String, acabada: Boolean, foto: String,prioridad: String,tipo: String, id: String) {
             this.nombre = nombre
             this.descripcion = descripcion
             this.fecha = fecha
             this.acabada = acabada
             this.foto = foto
             this.prioridad = prioridad
+            this.tipo = tipo
             this.ID = id
 
      }
@@ -67,7 +75,6 @@ open class Incidencia {
         var insertadoCorrectamente = false
         var auth = FirebaseAuth.getInstance()
         val db = FirebaseFirestore.getInstance()
-        val dbFoto = FirebaseStorage.getInstance()
          val idDocumento = (auth.currentUser?.uid?.hashCode()!! + System.currentTimeMillis().toInt()).toString()
             incidencia.ID = incidencia.hashCode().toString()
 
@@ -78,6 +85,7 @@ open class Incidencia {
                 "nombre" to incidencia.nombre,
                 "descripcion" to incidencia.descripcion,
                 "prioridad" to incidencia.prioridad,
+                "tipo" to incidencia.tipo,
                 "fecha" to incidencia.fecha,
                 "acabada" to incidencia.acabada,
                 "ID" to incidencia.ID,

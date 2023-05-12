@@ -1,5 +1,6 @@
 package InicioSesion
 
+import MenuConjunto.Notificaciones
 import ParteUsuarios.Data.Usuarios
 import ParteUsuarios.InicioFragment
 
@@ -23,7 +24,7 @@ class RegistroFragment : Fragment() {
 
     private lateinit var binding: ActivityRegistroBinding
     private val db = FirebaseFirestore.getInstance()
-    private var usuario = Usuarios("", "", "", "")
+    private var usuario = Usuarios("", "", "", "","")
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = ActivityRegistroBinding.inflate(inflater, container, false)
@@ -71,13 +72,26 @@ class RegistroFragment : Fragment() {
                                 "nombre" to binding.Nombre.text.toString(),
                                 "apellidos" to binding.apellidos.text.toString(),
                                 "email" to binding.email.text.toString(),
+                                "password" to binding.password.text.toString(),
                                 "privilegios" to usuario.privi,
+
                             ))
 
+
+                        val intent = Intent(requireContext(), Notificaciones::class.java).apply{
+                            putExtra("nombre", binding.Nombre.text.toString()) // Reemplaza "nombre" con el nombre del usuario registrado
+                            putExtra("email", binding.email.text.toString()) // Reemplaza "email" con el correo electrónico del usuario registrado
+                        }
+
+                        startActivity(intent)
+
+                        /*
                         val intent = Intent(requireContext(), MenuLateral::class.java).apply {
                             putExtra("nombreusuario", binding.Nombre.text.toString())
                         }
                         startActivity(intent)
+                        */
+
                     }
                     else {
                         Toast.makeText(requireContext(),"Error en el registro del nuevo usuario", Toast.LENGTH_SHORT).show()

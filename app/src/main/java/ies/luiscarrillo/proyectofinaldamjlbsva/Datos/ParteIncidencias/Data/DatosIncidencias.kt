@@ -9,6 +9,7 @@ data class DatosIncidencias (
    var descripcion: String = "",
    var acabada: Boolean = false,
    var prioridad: String = "",
+   var tipo: String = "",
    var ID: String ="",
    var foto: String = ""
 )

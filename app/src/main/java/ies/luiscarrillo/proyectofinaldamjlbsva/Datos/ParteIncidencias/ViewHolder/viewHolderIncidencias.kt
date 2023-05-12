@@ -15,6 +15,7 @@ class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     val descripcion = itemView.findViewById<TextView>(R.id.descripcion)
     val fecha = itemView.findViewById<TextView>(R.id.fecha)
     val estado = itemView.findViewById<TextView>(R.id.estado)
+    val tipo = itemView.findViewById<TextView>(R.id.tipo)
     val acabada = itemView.findViewById<TextView>(R.id.Acabada)
 
 
@@ -37,6 +38,10 @@ class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             acabada.text = "Incidencia: Pendiente"
             acabada.setTextColor(android.graphics.Color.RED)
         }
+
+        tipo.text = "Tipo: " + datosIncidencias.tipo
+        tipo.setTextColor(android.graphics.Color.WHITE)
+
 
         // Dependiendo de la prioridad de la incidencia lo mostrare de un color u otro
         when (datosIncidencias.prioridad) {

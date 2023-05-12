@@ -138,7 +138,8 @@ class MenuLateral : AppCompatActivity() {
 
                     }
                     if (privilegios == "gestor") {
-                        //binding.mostrarUsuario.isInvisible = true
+                        binding.navView.menu.findItem(R.id.nav_verUsuarios).isVisible = false
+                        binding.navView.menu.findItem(R.id.nav_insertarUsuario).isVisible = false
                     }
                 }
                 Log.d("Usuario", "Datos Usuario: ${documentSnapshot.data}")

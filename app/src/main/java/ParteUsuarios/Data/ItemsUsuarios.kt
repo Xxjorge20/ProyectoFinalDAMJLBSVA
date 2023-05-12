@@ -7,6 +7,6 @@ data class ItemsUsuarios(
     var email: String = "",
     var Nombre : String = "",
     var Apellidos : String = "",
-    var Privilegios : String = ""
-
+    var Privilegios : String = "",
+    var Password : String = ""
 )

@@ -78,6 +78,15 @@
                 android:textSize="16sp" />
 
             <TextView
+                android:id="@+id/tipo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:text="Tipo"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+
+            <TextView
                 android:id="@+id/Acabada"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

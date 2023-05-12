@@ -25,9 +25,7 @@ import ies.luiscarrillo.proyectofinaldamjlbsva.databinding.MenulateralBinding
 class InicioFragment : Fragment() {
 
     private lateinit var binding: ActivityInicioBinding
-    private lateinit var bindingJorge: FragmentInsertarIncidenciaBinding
     private lateinit var bindingMenu : MenulateralBinding
-    private lateinit var adapterUsuarios: Adapter
     private lateinit var listaUsuarios: ArrayList<ItemsUsuarios>
     private var auth = FirebaseAuth.getInstance()
     private var db = FirebaseFirestore.getInstance()
@@ -127,12 +125,6 @@ class InicioFragment : Fragment() {
                 Log.w("Añadiendo Usuarios", "Error al obtener los usuarios.", exception)
             }
 
-        // Boton para cerrar la sesion de usuario
-        /*
-        binding.cerrarSesion.setOnClickListener {
-            FirebaseAuth.getInstance().signOut()
-            // Volvemos a nuestro Main Activity
-            startActivity(Intent(requireContext(), MainActivity::class.java))
-        }*/
+
     }
 }

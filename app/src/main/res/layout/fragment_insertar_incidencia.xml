@@ -8,152 +8,172 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/scroll">
 
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@drawable/loginfondo"
-    tools:context=".Menu.CasaFragment">
-
-    <!-- TODO: Update blank fragment layout -->
-
-    <TextView
-        android:id="@+id/textView4"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Insertar incidencia"
-        android:textAlignment="center"
-        android:textColor="@color/white"
-        android:textSize="42sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:background="@drawable/loginfondo"
+        tools:context=".Menu.CasaFragment">
 
-    <EditText
-        android:id="@+id/TBTituloIncidencia"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/borde_edittext"
-        android:ems="10"
-        android:hint="Titulo"
-        android:inputType="textPersonName"
-        android:paddingStart="15dp"
-        android:textColor="@color/white"
-        android:textColorHint="@color/white"
-        android:windowSoftInputMode="adjustPan"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+        <!-- TODO: Update blank fragment layout -->
 
-    <EditText
-        android:id="@+id/TBDescripcionIncidencia"
-        android:layout_width="405dp"
-        android:layout_height="73dp"
-        android:layout_marginTop="44dp"
-        android:background="@drawable/borde_edittext"
-        android:ems="10"
-        android:hint="Descripcion"
-        android:inputType="textMultiLine|textPersonName"
-        android:paddingStart="15dp"
-        android:textColor="@color/white"
-        android:textColorHint="@color/white"
-        android:windowSoftInputMode="adjustPan"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/TBFechaIncidencia" />
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Insertar incidencia"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="42sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/TBFechaIncidencia"
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/borde_edittext"
-        android:ems="10"
-        android:hint="Fecha"
-        android:inputType="datetime"
-        android:paddingStart="15dp"
-        android:shadowColor="@color/white"
-        android:textColor="@color/white"
-        android:textColorHint="@color/white"
-        android:windowSoftInputMode="adjustPan"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/TBTituloIncidencia" />
+        <EditText
+            android:id="@+id/TBTituloIncidencia"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/borde_edittext"
+            android:ems="10"
+            android:hint="Titulo"
+            android:inputType="textPersonName"
+            android:paddingStart="15dp"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
+            android:windowSoftInputMode="adjustPan"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
-    <ImageView
-        android:id="@+id/imageVista"
-        android:layout_width="155dp"
-        android:layout_height="176dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.976"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/listPrioridad"
-        tools:src="@tools:sample/avatars" />
+        <EditText
+            android:id="@+id/TBDescripcionIncidencia"
+            android:layout_width="405dp"
+            android:layout_height="73dp"
+            android:layout_marginTop="44dp"
+            android:background="@drawable/borde_edittext"
+            android:ems="10"
+            android:hint="Descripcion"
+            android:inputType="textMultiLine|textPersonName"
+            android:paddingStart="15dp"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
+            android:windowSoftInputMode="adjustPan"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/TBFechaIncidencia" />
 
-    <Button
-        android:id="@+id/BCamaraGaleria"
-        android:layout_width="216dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="88dp"
-        android:background="@drawable/boton_neon"
-        android:text="Camara/Galeria"
-        android:textColor="@color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/listPrioridad" />
+        <EditText
+            android:id="@+id/TBFechaIncidencia"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/borde_edittext"
+            android:ems="10"
+            android:hint="Fecha"
+            android:inputType="datetime"
+            android:paddingStart="15dp"
+            android:shadowColor="@color/white"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
+            android:windowSoftInputMode="adjustPan"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/TBTituloIncidencia" />
 
-    <Button
-        android:id="@+id/BInsertarIncidencia"
-        android:layout_width="297dp"
-        android:layout_height="52dp"
-        android:layout_marginTop="84dp"
-        android:background="@drawable/boton_neon"
-        android:text="Insertar Incidencia"
-        android:textColor="@color/white"
-        app:flow_verticalAlign="center"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/BCamaraGaleria" />
+        <ImageView
+            android:id="@+id/imageVista"
+            android:layout_width="155dp"
+            android:layout_height="176dp"
+            android:layout_marginTop="4dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.976"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/listTipoIncidencia"
+            tools:src="@tools:sample/avatars" />
 
+        <Button
+            android:id="@+id/BCamaraGaleria"
+            android:layout_width="216dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="76dp"
+            android:background="@drawable/boton_neon"
+            android:text="Camara/Galeria"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.082"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/listTipoIncidencia" />
 
-
-
-    <ListView
-        android:id="@+id/listPrioridad"
-        android:layout_width="400dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="20dp"
-        android:background="@color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.454"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+        <Button
+            android:id="@+id/BInsertarIncidencia"
+            android:layout_width="297dp"
+            android:layout_height="52dp"
+            android:layout_marginTop="124dp"
+            android:background="@drawable/boton_neon"
+            android:text="Insertar Incidencia"
+            android:textColor="@color/white"
+            app:flow_verticalAlign="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/BCamaraGaleria" />
 
 
+        <ListView
+            android:id="@+id/listPrioridad"
+            android:layout_width="400dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="20dp"
+            android:background="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.454"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
 
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Tipo Incidencia"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/listPrioridad" />
 
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
-        android:text="Prioridad de la Incidencia"
-        android:textColor="@color/white"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.569"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/TBDescripcionIncidencia" />
+        <ListView
+            android:id="@+id/listTipoIncidencia"
+            android:layout_width="400dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="20dp"
+            android:background="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView5" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Prioridad de la Incidencia"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.559"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/TBDescripcionIncidencia" />
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

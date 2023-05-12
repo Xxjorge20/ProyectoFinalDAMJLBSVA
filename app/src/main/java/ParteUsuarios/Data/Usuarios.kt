@@ -1,8 +1,13 @@
 package ParteUsuarios.Data
 
+import android.app.AlertDialog
 import android.util.Log
+import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import ies.luiscarrillo.proyectofinaldamjlbsva.Datos.ParteIncidencias.Data.DatosIncidencias
+import ies.luiscarrillo.proyectofinaldamjlbsva.Datos.ParteIncidencias.Data.Incidencia
+import ies.luiscarrillo.proyectofinaldamjlbsva.Datos.ParteIncidencias.ViewHolder.ViewHolder
 
 open class Usuarios {
 
@@ -14,13 +19,15 @@ open class Usuarios {
     var nombre : String = ""
     var apellidos : String = ""
     var privi : String = ""
+    var password : String = ""
 
 
     constructor(
         email: String,
         nombre: String,
         apellidos: String,
-        privilegios: String
+        privilegios: String,
+        password: String
 
     )
 
@@ -55,5 +62,10 @@ open class Usuarios {
         }
         return borradoCorrectamente
     }
+
+
+
+
+
 
 }

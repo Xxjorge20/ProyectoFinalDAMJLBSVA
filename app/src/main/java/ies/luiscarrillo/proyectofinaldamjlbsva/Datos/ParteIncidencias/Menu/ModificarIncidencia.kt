@@ -131,14 +131,7 @@ class ModificarIncidencia : Fragment() {
 
         )
 
-        /*
-        binding.listPrioridadModificar.adapter = android.widget.ArrayAdapter(
-            requireContext(),
-            android.R.layout.simple_list_item_1,
-            // recorro el array de prioridades y la añado a la lista
-            listaPrioridadesString
 
-        )*/
 
         // evento click en la lista de prioridades
         binding.listPrioridadModificar.setOnItemClickListener { parent, view, position, id ->

@@ -55,7 +55,7 @@ class adapterIncidencas(private var incidencias: ArrayList<DatosIncidencias>) : 
 
         holder.titulo.text = incidencia.nombre
         holder.descripcion.text = incidencia.descripcion
-
+        holder.tipo.text = incidencia.tipo
 
 
 
@@ -128,6 +128,7 @@ class adapterIncidencas(private var incidencias: ArrayList<DatosIncidencias>) : 
         args.putString("prioridad", datosIncidencias.prioridad)
         args.putBoolean("acabada", datosIncidencias.acabada)
         args.putString("foto", datosIncidencias.foto)
+        args.putString("tipo", datosIncidencias.tipo)
 
         /*
                 datosIncidencias.nombre,
@@ -194,6 +195,7 @@ class adapterIncidencas(private var incidencias: ArrayList<DatosIncidencias>) : 
                 datosIncidencias.acabada,
                 datosIncidencias.foto,
                 datosIncidencias.prioridad,
+                datosIncidencias.tipo,
                 datosIncidencias.ID
             ).BorrarIncidencia(datosIncidencias.ID) // Llamo a la funcion de borrar incidencia
 
