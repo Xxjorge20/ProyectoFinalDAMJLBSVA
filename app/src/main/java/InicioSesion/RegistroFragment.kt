@@ -24,7 +24,7 @@ class RegistroFragment : Fragment() {
 
     private lateinit var binding: ActivityRegistroBinding
     private val db = FirebaseFirestore.getInstance()
-    private var usuario = Usuarios("", "", "", "","")
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = ActivityRegistroBinding.inflate(inflater, container, false)
@@ -36,6 +36,7 @@ class RegistroFragment : Fragment() {
 
         activity?.title = "Nuevo Usuario"
 
+        var usuario = Usuarios("", "", "", "","")
         val listaPrivilegios = Usuarios.privilegios.values()
         val listaPrivilegiosString = ArrayList<String>()
         for (privilegio in listaPrivilegios) {
@@ -60,43 +61,60 @@ class RegistroFragment : Fragment() {
         }
 
         binding.registro.setOnClickListener {
-            if (binding.email.text.isNotEmpty() && binding.password.text.isNotEmpty()
-                && binding.Nombre.text.isNotEmpty() && binding.apellidos.text.isNotEmpty()){
 
-                FirebaseAuth.getInstance().createUserWithEmailAndPassword(
-                    binding.email.text.toString(), binding.password.text.toString()).addOnCompleteListener{
-
-                    if (it.isSuccessful){
-                        db.collection("usuarios").document(binding.email.text.toString())
-                            .set(mapOf(
-                                "nombre" to binding.Nombre.text.toString(),
-                                "apellidos" to binding.apellidos.text.toString(),
-                                "email" to binding.email.text.toString(),
-                                "password" to binding.password.text.toString(),
-                                "privilegios" to usuario.privi,
-
-                            ))
+            usuario.nombre = binding.Nombre.text.toString()
+            usuario.apellidos = binding.apellidos.text.toString()
+            usuario.email = binding.email.text.toString()
+            usuario.password = binding.password.text.toString()
 
 
-                        val intent = Intent(requireContext(), Notificaciones::class.java).apply{
-                            putExtra("nombre", binding.Nombre.text.toString()) // Reemplaza "nombre" con el nombre del usuario registrado
-                            putExtra("email", binding.email.text.toString()) // Reemplaza "email" con el correo electrónico del usuario registrado
+            // Obtenemos el usuario actual
+
+            var usuarioA = FirebaseAuth.getInstance().currentUser
+            var correo = usuarioA?.email.toString()
+            var nameUser = correo.split("@")[0]
+            // Comprobamos que los campos no estén vacíos
+
+
+
+            if (usuario.email != null
+                && usuario.password != null
+                && usuario.nombre != null
+                && usuario.apellidos != null) {
+
+                    FirebaseAuth.getInstance().createUserWithEmailAndPassword(
+                        usuario.email, usuario.password).addOnCompleteListener{
+
+                        if (it.isSuccessful){
+                            db.collection("usuarios").document(usuario.email)
+                                .set(mapOf(
+                                    "Nombre" to usuario.nombre,
+                                    "Apellidos" to usuario.apellidos,
+                                    "email" to usuario.email,
+                                    "Password" to usuario.password,
+                                    "Privilegios" to usuario.privi
+                                ))
+
+
+                            Log.d("Registro", "Usuario registrado correctamente" + it.result)
+
+                            val intent = Intent(requireContext(), Notificaciones::class.java).apply{
+                                putExtra("nombre",nameUser)
+                                putExtra("correo",correo)
+
+                                putExtra("RegistroNombre", usuario.nombre)
+                                putExtra("RegistroEmail", usuario.email)
+                            }
+
+                            startActivity(intent)
+
+
+
                         }
-
-                        startActivity(intent)
-
-                        /*
-                        val intent = Intent(requireContext(), MenuLateral::class.java).apply {
-                            putExtra("nombreusuario", binding.Nombre.text.toString())
+                        else {
+                            Toast.makeText(requireContext(),"Error en el registro del nuevo usuario", Toast.LENGTH_SHORT).show()
+                            Log.d("Registro", it.exception.toString())
                         }
-                        startActivity(intent)
-                        */
-
-                    }
-                    else {
-                        Toast.makeText(requireContext(),"Error en el registro del nuevo usuario", Toast.LENGTH_SHORT).show()
-                        Log.d("Registro", it.exception.toString())
-                    }
                 }
             }
             else {

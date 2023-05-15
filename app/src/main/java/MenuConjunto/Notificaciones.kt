@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContentProviderCompat.requireContext
@@ -13,19 +14,28 @@ import ies.luiscarrillo.proyectofinaldamjlbsva.Datos.ParteIncidencias.Menu.MenuL
 import ies.luiscarrillo.proyectofinaldamjlbsva.R
 import ies.luiscarrillo.proyectofinaldamjlbsva.databinding.ActivityMainBinding
 import ies.luiscarrillo.proyectofinaldamjlbsva.databinding.ActivityRegistroBinding
+import ies.luiscarrillo.proyectofinaldamjlbsva.databinding.MenulateralBinding
 
 class Notificaciones : AppCompatActivity() {
 
     private lateinit var binding: ActivityRegistroBinding
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // Inicializamos el binding
         binding = ActivityRegistroBinding.inflate(layoutInflater)
         setContentView(R.layout.activity_registro)
 
-        // Obtener datos del usuario registrado
-        val nombre = intent.getStringExtra("nombre")
-        val email = intent.getStringExtra("email")
+
+
+        val nombreRegistrado = intent.getStringExtra("RegistroNombre")
+        val correoRegistrado = intent.getStringExtra("RegistroEmail")
+
+       val email = intent.getStringExtra("correo")
+       val nombre = intent.getStringExtra("nombre")
+
+
 
         // Crear notificación local
         val channelId = "Registro"
@@ -33,7 +43,7 @@ class Notificaciones : AppCompatActivity() {
         val notificationBuilder = NotificationCompat.Builder(this, channelId)
             .setSmallIcon(R.drawable.logoluiscarrillo)
             .setContentTitle("Registro exitoso")
-            .setContentText("Bienvenido, $nombre! Tu correo electrónico es $email.")
+            .setContentText("Bienvenido, $nombreRegistrado! Tu correo electrónico es $correoRegistrado.")
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
 
         val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
@@ -51,7 +61,8 @@ class Notificaciones : AppCompatActivity() {
         notificationManager.notify(1, notificationBuilder.build())
         // Cambio de activity
         val intent = Intent(this, MenuLateral::class.java).apply {
-            putExtra("nombreusuario", binding.Nombre.text.toString())
+            putExtra("correo", email)
+            putExtra("nombre", nombre)
         }
         startActivity(intent)
     }
