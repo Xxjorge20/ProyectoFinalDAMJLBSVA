@@ -127,7 +127,7 @@ class MenuLateral : AppCompatActivity() {
         db.collection("usuarios").document(correo).get()
             .addOnSuccessListener { documentSnapshot ->
                 if (documentSnapshot.exists()) {
-                    val privilegios = documentSnapshot.getString("privilegios")
+                    val privilegios = documentSnapshot.getString("Privilegios")
 
 
                     if (privilegios == "user") {

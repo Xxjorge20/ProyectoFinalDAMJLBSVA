@@ -386,12 +386,13 @@ class InsertarIncidenciaFragment : Fragment(R.layout.fragment_insertar_incidenci
         return dateFormat.format(fechaHoraActual)
     }
 
+    /*
     fun formatearFecha(fecha: String): String {
         val formatoActual = SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.ENGLISH)
         val fechaActual = formatoActual.parse(fecha)
 
         val formatoNuevo = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale("es", "ES"))
         return formatoNuevo.format(fechaActual)
-    }
+    }*/
 
 }

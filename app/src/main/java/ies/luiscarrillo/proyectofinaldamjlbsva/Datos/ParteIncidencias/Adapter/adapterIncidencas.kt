@@ -85,7 +85,7 @@ class adapterIncidencas(private var incidencias: ArrayList<DatosIncidencias>) : 
     ) {
         db.collection("usuarios").document(correo).get().addOnSuccessListener { documentSnapshot ->
             if (documentSnapshot.exists()) {
-                val privilegios = documentSnapshot.getString("privilegios")
+                val privilegios = documentSnapshot.getString("Privilegios")
 
                 when (privilegios) {
                     "user" -> {
@@ -98,7 +98,7 @@ class adapterIncidencas(private var incidencias: ArrayList<DatosIncidencias>) : 
                         ).show()
                     }
 
-                    "gestor", "admin" -> {
+                    "gestor" -> {
                         // Tiene permisos, mostrar opciones
                         if (!DialogoModificarBorrar(incidencia, holder)) {
                             Log.i("MostarMenu", "Modificando incidencia")
@@ -106,6 +106,15 @@ class adapterIncidencas(private var incidencias: ArrayList<DatosIncidencias>) : 
                             Log.i("MostarMenu", "Borrando incidencia")
                         }
                     }
+
+                   "admin" ->{
+                        // Tiene permisos, mostrar opciones
+                        if (!DialogoModificarBorrar(incidencia, holder)) {
+                            Log.i("MostarMenu", "Modificando incidencia")
+                        } else {
+                            Log.i("MostarMenu", "Borrando incidencia")
+                        }
+                   }
                 }
             }
         }

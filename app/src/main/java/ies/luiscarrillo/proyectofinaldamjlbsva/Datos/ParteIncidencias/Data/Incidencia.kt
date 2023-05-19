@@ -225,6 +225,7 @@ open class Incidencia {
                     "prioridad" to incidencia.prioridad,
                     "fecha" to incidencia.fecha,
                     "acabada" to incidencia.acabada,
+                    "tipo" to incidencia.tipo,
                     "foto" to incidencia.foto
                 )
                 db.collection("Incidencias").document(incidencia.ID).set(datos)
@@ -237,6 +238,7 @@ open class Incidencia {
                         Log.d("Incidencia", incidencia.prioridad)
                         Log.d("Incidencia", incidencia.fecha)
                         Log.d("Incidencia", incidencia.acabada.toString())
+                        Log.d("Incidencia", incidencia.tipo)
                         Log.d("Incidencia", incidencia.foto)
                     }
                     .addOnFailureListener {

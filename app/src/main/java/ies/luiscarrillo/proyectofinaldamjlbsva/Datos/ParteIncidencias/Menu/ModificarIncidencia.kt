@@ -53,7 +53,7 @@ class ModificarIncidencia : Fragment() {
     var id: String? = null
     var foto: String? = null
     var finalizada: Boolean = false
-
+    var tipo : String? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -78,6 +78,7 @@ class ModificarIncidencia : Fragment() {
         acabada = arguments?.getString("acabada")
         id = arguments?.getString("id")
         foto = arguments?.getString("foto")
+        tipo = arguments?.getString("tipo")
 
         /*
         datosIncidencias.nombre,
@@ -98,6 +99,7 @@ class ModificarIncidencia : Fragment() {
         Log.i("ModificarIncidencia", "Acabada: $acabada")
         Log.i("ModificarIncidencia", "ID: $id")
         Log.i("ModificarIncidencia", "Foto: $foto")
+        Log.i("ModificarIncidencia", "Tipo: $tipo")
 
         // Limpiar los campos
         resetear()
@@ -191,7 +193,9 @@ class ModificarIncidencia : Fragment() {
             finalizada,
             foto.toString(),
             prioridad.toString(),
-            id.toString(),
+            tipo.toString(),
+            id.toString()
+
 
 
 
