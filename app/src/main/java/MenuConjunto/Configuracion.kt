@@ -1,13 +1,16 @@
 package MenuConjunto
 
+import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
+import android.view.KeyEvent
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.ActivityCompat.recreate
+import com.google.firebase.auth.FirebaseAuth
 import ies.luiscarrillo.proyectofinaldamjlbsva.Datos.ParteIncidencias.Menu.MenuLateral
 import ies.luiscarrillo.proyectofinaldamjlbsva.R
 import ies.luiscarrillo.proyectofinaldamjlbsva.databinding.FragmentConfiguracionBinding
@@ -59,6 +62,38 @@ class Configuracion : Fragment() {
             }
             recreate(requireActivity() as MenuLateral)
         }
+
+
+        binding!!.root.isFocusableInTouchMode = true
+        binding!!.root.requestFocus()
+        binding!!.root.setOnKeyListener { _, keyCode, _ ->
+            if (keyCode == KeyEvent.KEYCODE_BACK) {
+
+                var usuario = FirebaseAuth.getInstance().currentUser
+                var correo = usuario?.email.toString()
+                var nameUser = correo.split("@")[0]
+
+                // Aquí puedes realizar las acciones que deseas cuando se presiona el botón de retroceso
+                // Por ejemplo, puedes cerrar el Fragment actual o mostrar un diálogo de confirmación antes de cerrarlo
+
+
+
+                // Si deseas cerrar el Fragment actual, puedes utilizar fragmentManager
+                fragmentManager?.beginTransaction()?.remove(this)?.commit()
+
+                val CasaFragment = Intent(activity, MenuLateral::class.java)
+                CasaFragment.putExtra("correo", correo)
+                CasaFragment.putExtra("nombre", nameUser)
+                startActivity(CasaFragment)
+
+
+
+                return@setOnKeyListener true
+            }
+            return@setOnKeyListener false
+        }
+
+
 
         return binding!!.root
     }

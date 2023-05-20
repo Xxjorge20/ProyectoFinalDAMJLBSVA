@@ -92,6 +92,16 @@ class CuadroDialogo: DialogFragment() {
         return respuesta
     }
 
+    /**
+     * Esta función carga un fragmento para modificar una incidencia con los datos dados.
+     * 
+     * @param datosIncidencias Es un objeto de tipo DatosIncidencias que contiene información sobre una
+     * incidencia, como su ID, nombre, fecha, descripción, prioridad y si se ha completado o no.
+     * @param holder ViewHolder es una clase que contiene las vistas de un solo elemento en un
+     * RecyclerView. Se utiliza para mostrar de manera eficiente una gran cantidad de elementos en una
+     * lista o cuadrícula. En este código, el ViewHolder se usa para obtener el contexto de la vista
+     * del elemento, que luego se usa para obtener el FragmentManager para
+     */
     fun CargarModificarFragment(datosIncidencias: DatosIncidencias, holder: ViewHolder) {
 
         // Llevar al de modificar incidencia

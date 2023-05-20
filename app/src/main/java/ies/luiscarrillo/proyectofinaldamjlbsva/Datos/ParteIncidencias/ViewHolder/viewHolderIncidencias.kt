@@ -20,6 +20,14 @@ class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
 
 
+   /**
+    * Esta función asigna valores a las variables y los muestra en un formato específico basado en los
+    * datos de entrada.
+    * 
+    * @param datosIncidencias Es un parámetro de tipo DatosIncidencias, que es un objeto que contiene
+    * información sobre una incidencia. Este método utiliza la información de este objeto para
+    * completar los elementos de la interfaz de usuario en el diseño.
+    */
     fun bind(datosIncidencias: DatosIncidencias) {
 
         // Asigno los valores a las variables

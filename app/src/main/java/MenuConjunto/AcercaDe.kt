@@ -1,11 +1,16 @@
 package MenuConjunto
 
+import android.content.Intent
 import android.os.Bundle
+import android.view.KeyEvent
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.google.firebase.auth.FirebaseAuth
+import ies.luiscarrillo.proyectofinaldamjlbsva.Datos.ParteIncidencias.Menu.MenuLateral
 import ies.luiscarrillo.proyectofinaldamjlbsva.R
+import ies.luiscarrillo.proyectofinaldamjlbsva.databinding.FragmentAcercaDeBinding
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -21,6 +26,7 @@ class AcercaDe : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+    private  var binding: FragmentAcercaDeBinding? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,8 +43,12 @@ class AcercaDe : Fragment() {
 
         activity?.setTitle("Acerca de")
 
+
+
+
+
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_acerca_de, container, false)
+        return binding!!.root
     }
 
     companion object {

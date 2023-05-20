@@ -7,19 +7,17 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
-import ies.luiscarrillo.proyectofinaldamjlbsva.Datos.ParteIncidencias.ViewHolder.ViewHolder
-import ies.luiscarrillo.proyectofinaldamjlbsva.R
 import ies.luiscarrillo.proyectofinaldamjlbsva.Datos.ParteIncidencias.Data.DatosIncidencias
 import ies.luiscarrillo.proyectofinaldamjlbsva.Datos.ParteIncidencias.Data.Incidencia
 import ies.luiscarrillo.proyectofinaldamjlbsva.Datos.ParteIncidencias.Menu.MenuLateral
+import ies.luiscarrillo.proyectofinaldamjlbsva.Datos.ParteIncidencias.ViewHolder.ViewHolder
+import ies.luiscarrillo.proyectofinaldamjlbsva.R
 import ies.luiscarrillodesotomayor.gestionincidencias.Menu.ModificarIncidencia
-
 
 
 class adapterIncidencas(private var incidencias: ArrayList<DatosIncidencias>) : RecyclerView.Adapter<ViewHolder>() {
@@ -30,6 +28,18 @@ class adapterIncidencas(private var incidencias: ArrayList<DatosIncidencias>) : 
         return ViewHolder(view)
     }
 
+    /**
+     * Esta función carga datos e imágenes para una lista de incidentes y los establece en un
+     * ViewHolder en un RecyclerView, al mismo tiempo que permite acciones de clic largo para
+     * establecer privilegios.
+     * 
+     * @param holder El objeto ViewHolder que representa la vista del elemento actual en RecyclerView.
+     * Contiene referencias a las vistas que deben actualizarse con los datos del elemento actual.
+     * @param position El parámetro de posición en el método onBindViewHolder hace referencia a la
+     * posición del elemento en RecyclerView que representa ViewHolder. Se utiliza para recuperar los
+     * datos correspondientes de la fuente de datos (en este caso, la lista de incidencias) y
+     * vincularlos a las vistas en ViewHolder.
+     */
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         // Datos de las incidencias
         var incidencia : DatosIncidencias = incidencias[position]
@@ -77,6 +87,20 @@ class adapterIncidencas(private var incidencias: ArrayList<DatosIncidencias>) : 
 
     }
 
+  /**
+   * Esta función comprueba los privilegios de un usuario y muestra las opciones correspondientes.
+   * 
+   * @param db Instancia de FirebaseFirestore utilizada para acceder a la base de datos de Firestore.
+   * @param correo correo es un parámetro String que representa la dirección de correo electrónico de
+   * un usuario.
+   * @param holder ViewHolder es una clase que contiene referencias a las vistas dentro de un elemento
+   * RecyclerView. Se utiliza para reciclar de manera eficiente las vistas a medida que el usuario se
+   * desplaza por una lista. En esta función, ViewHolder se usa para acceder al contexto de la vista de
+   * elementos, que se necesita para mostrar un mensaje Toast.
+   * @param incidencia El parámetro "incidencia" es de tipo "DatosIncidencias" y es un objeto que
+   * representa una incidencia con sus correspondientes datos como título, descripción, fecha,
+   * ubicación, etc.
+   */
     private fun establecerPrivilegios(
         db: FirebaseFirestore,
         correo: String,
@@ -124,7 +148,18 @@ class adapterIncidencas(private var incidencias: ArrayList<DatosIncidencias>) : 
        return incidencias.size
     }
 
-    // Funcion para modificar una incidencia cuando la pulsamos en el menu
+   /**
+    * Esta función carga un fragmento para modificar una incidencia cuando se selecciona desde un menú.
+    * 
+    * @param datosIncidencias Es un objeto de la clase DatosIncidencias que contiene información sobre
+    * una incidencia, como su ID, nombre, fecha, descripción, prioridad, si está terminada o no, foto y
+    * tipo.
+    * @param holder El parámetro "titular" es del tipo ViewHolder, que es una clase que se usa en
+    * RecyclerView para mantener y administrar las vistas de un solo elemento de la lista. En esta
+    * función, se utiliza para acceder al contexto de la vista del elemento y reemplazar el fragmento
+    * actual por uno nuevo.
+    */
+
     fun CargarModificarFragment(datosIncidencias: DatosIncidencias, holder: ViewHolder) {
 
         // Llevar datos a la actividad de modificar incidencia para que los muestre
@@ -155,7 +190,21 @@ class adapterIncidencas(private var incidencias: ArrayList<DatosIncidencias>) : 
 
     }
 
-    // Funcion para mostrar un dialogo de opciones de la incidencia
+   /**
+    * La función muestra un cuadro de diálogo con opciones para modificar o eliminar una incidencia y
+    * devuelve un valor booleano basado en la selección del usuario.
+    * 
+    * @param datosIncidencias un objeto de tipo DatosIncidencias que contiene información sobre una
+    * incidencia
+    * @param holder El parámetro "titular" es una instancia de la clase ViewHolder, que se usa para
+    * contener referencias a las vistas que se muestran en un RecyclerView. Se pasa a la función para
+    * que la función pueda acceder al contexto de la vista y realizar acciones en las vistas si es
+    * necesario.
+    * @return un valor booleano, que está determinado por la selección del usuario en el cuadro de
+    * diálogo. Si el usuario selecciona "Modificar", la función devuelve verdadero. Si el usuario
+    * selecciona "Borrar", la función devuelve falso.
+    */
+
     fun DialogoModificarBorrar(datosIncidencias: DatosIncidencias, holder: ViewHolder): Boolean {
         var respuesta = false
         val builder = AlertDialog.Builder(holder.itemView.context)
@@ -187,7 +236,21 @@ class adapterIncidencas(private var incidencias: ArrayList<DatosIncidencias>) : 
 
         return respuesta
     }
-    // Funcion para mostrar un dialogo de confirmacion de borrado de la incidencia
+    /**
+     * La función muestra un diálogo de confirmación para eliminar una incidencia y realiza la
+     * eliminación si se confirma.
+     * 
+     * @param datosIncidencias Un objeto de tipo DatosIncidencias, que contiene información sobre una
+     * incidencia.
+     * @param holder El parámetro "titular" es una instancia de la clase ViewHolder, que contiene
+     * referencias a las vistas que componen un solo elemento en RecyclerView. Se usa en esta función
+     * para obtener el contexto de la vista del elemento, que se necesita para mostrar un mensaje Toast
+     * y crear un AlertDialog.
+     * @return un valor booleano, que está determinado por la respuesta del usuario al cuadro de
+     * diálogo de confirmación. Si el usuario confirma la eliminación, la función devuelve verdadero.
+     * Si el usuario cancela la eliminación, la función devuelve falso.
+     */
+    
     fun DialogoBorrarIncidencias(datosIncidencias: DatosIncidencias, holder: ViewHolder): Boolean {
         var respuesta = false
         val builder = AlertDialog.Builder(holder.itemView.context)

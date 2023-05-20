@@ -9,6 +9,7 @@ import android.media.MediaScannerConnection
 import android.os.*
 import android.provider.MediaStore
 import android.util.Log
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -142,6 +143,8 @@ class InsertarIncidenciaFragment : Fragment(R.layout.fragment_insertar_incidenci
 
 
 
+
+
         // Boton de insertar incidencia
         binding.BInsertarIncidencia.setOnClickListener(){
             var usuario = FirebaseAuth.getInstance().currentUser
@@ -161,9 +164,28 @@ class InsertarIncidenciaFragment : Fragment(R.layout.fragment_insertar_incidenci
                 ocultarTeclado()
             }
         }
+
+
+
+
+
+
         return view
+
     }
 
+   /**
+    * Esta función inserta una incidencia en una base de datos y sube una imagen a Firebase Storage.
+    * 
+    * @param nameUser Una variable de cadena que representa el nombre del usuario que está creando la
+    * incidencia.
+    * @param incidencia Incidencia es un objeto de la clase Incidencia, que contiene propiedades como
+    * nombre (nombre), fecha (fecha), descripcion (descripción), acabada (terminado) y foto (foto). La
+    * función utiliza este objeto para establecer los valores de estas propiedades en función de la
+    * entrada del usuario y la
+    * @param correo correo es un parámetro String que representa la dirección de correo electrónico del
+    * usuario.
+    */
     private fun insertarIncidencia(
         nameUser: String,
         incidencia: Incidencia,
@@ -288,6 +310,10 @@ class InsertarIncidenciaFragment : Fragment(R.layout.fragment_insertar_incidenci
     }
 
 
+   /**
+    * La función muestra un cuadro de diálogo de alerta con opciones para seleccionar una foto de la
+    * galería o tomar una foto con la cámara.
+    */
     private fun cuadroCamaraGaleria() {
         val dialogoGC = AlertDialog.Builder(requireContext())
         dialogoGC.setTitle("¿Que Deseas Hacer?")
@@ -302,16 +328,36 @@ class InsertarIncidenciaFragment : Fragment(R.layout.fragment_insertar_incidenci
         dialogoGC.show()
     }
 
+/**
+ * Esta función abre la galería de fotos del dispositivo y permite al usuario seleccionar una imagen.
+ */
     private fun fotoGaleria() {
         val galleryIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         startActivityForResult(galleryIntent, galeria)
     }
 
+/**
+ * Esta función abre la aplicación de la cámara para tomar una foto y devuelve el resultado.
+ */
     private fun fotoCamara() {
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         startActivityForResult(intent, camara)
     }
 
+/**
+ * Esta función maneja el resultado de una actividad que permite al usuario seleccionar o tomar una
+ * foto, guarda la foto en el dispositivo y la muestra en ImageView.
+ * 
+ * @param requestCode Un código entero que identifica el tipo de solicitud que se está realizando. Se
+ * utiliza para diferenciar entre diferentes tipos de solicitudes al manejar el resultado en
+ * onActivityResult().
+ * @param resultCode El código de resultado devuelto por la actividad iniciada por el método
+ * startActivityForResult(). Indica si la actividad fue exitosa o no. RESULT_OK indica éxito y
+ * RESULT_CANCELED indica falla.
+ * @param data El parámetro de datos es un objeto Intent que contiene los datos de resultado de la
+ * actividad que se inició para un resultado. Puede contener datos como la URI de la imagen
+ * seleccionada o la foto capturada.
+ */
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
@@ -341,6 +387,14 @@ class InsertarIncidenciaFragment : Fragment(R.layout.fragment_insertar_incidenci
     }
 
     // Funcion para guardar la imagen
+  /**
+   * Esta función guarda una imagen de mapa de bits en un directorio específico en el almacenamiento
+   * externo del dispositivo.
+   * 
+   * @param fotoEscogida Un objeto de mapa de bits que representa la imagen que debe guardarse.
+   * @return una cadena que es la ruta absoluta del archivo de imagen guardado. Si hay un error al
+   * guardar la imagen, se devuelve una cadena vacía.
+   */
     private fun guardarImagen(fotoEscogida: Bitmap): String {
         val bytes = ByteArrayOutputStream()
         fotoEscogida.compress(Bitmap.CompressFormat.JPEG, 90, bytes)
@@ -378,6 +432,14 @@ class InsertarIncidenciaFragment : Fragment(R.layout.fragment_insertar_incidenci
 
 
     // Funcion para obtener la fecha actual
+/**
+ * La función obtiene la fecha y hora actual en el formato "dd/MM/aaaa HH:mm" para la zona horaria
+ * "Europa/Madrid".
+ * 
+ * @return La función `obtenerFechaHoraActual()` devuelve una cadena que representa la fecha y hora
+ * actual en el formato "dd/MM/aaaa HH:mm" (día/mes/año hora:minuto) en la zona horaria
+ * "Europa/Madrid".
+ */
     fun obtenerFechaHoraActual(): String {
         val timeZone = TimeZone.getTimeZone("Europe/Madrid")
         val dateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
@@ -394,5 +456,8 @@ class InsertarIncidenciaFragment : Fragment(R.layout.fragment_insertar_incidenci
         val formatoNuevo = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale("es", "ES"))
         return formatoNuevo.format(fechaActual)
     }*/
+
+
+
 
 }

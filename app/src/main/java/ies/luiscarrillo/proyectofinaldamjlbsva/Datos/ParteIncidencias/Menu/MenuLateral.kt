@@ -12,14 +12,13 @@ import android.view.MenuItem
 import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.GravityCompat.*
-import androidx.core.view.isInvisible
+import androidx.core.view.GravityCompat.START
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import ies.luiscarrillo.proyectofinaldamjlbsva.R
 import ies.luiscarrillo.proyectofinaldamjlbsva.databinding.MenulateralBinding
-import ies.luiscarrillodesotomayor.gestionincidencias.Menu.*
-
+import ies.luiscarrillodesotomayor.gestionincidencias.Menu.CasaFragment
+import ies.luiscarrillodesotomayor.gestionincidencias.Menu.InsertarIncidenciaFragment
 
 
 class MenuLateral : AppCompatActivity() {
@@ -42,12 +41,14 @@ class MenuLateral : AppCompatActivity() {
 
 
 
+
         // cargo el header del menu lateral
         val header = binding.navView.getHeaderView(0)
         val email = header.findViewById<TextView>(R.id.TBCorreoUserName)
         val nombre = header.findViewById<TextView>(R.id.TBUserName)
         email.text = intent.getStringExtra("correo")
         nombre.text = intent.getStringExtra("nombre")
+
         permisos()
 
 
@@ -104,6 +105,16 @@ class MenuLateral : AppCompatActivity() {
         }
     }
 
+/**
+ * Esta función maneja la selección de elementos del menú y alterna el menú si es necesario.
+ * 
+ * @param item `item` es un parámetro de tipo `MenuItem` que representa el elemento de menú que
+ * seleccionó el usuario. El método `onOptionsItemSelected` se llama cuando se selecciona un elemento
+ * del menú, y este parámetro le permite acceder a información sobre el elemento seleccionado, como su
+ * ID, título y otros
+ * @return Si el objeto `toggle` maneja el `MenuItem` seleccionado, se devuelve `true`. De lo
+ * contrario, se devuelve el valor de retorno del método `super`.
+ */
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (toggle.onOptionsItemSelected(item)) {
             return true
@@ -118,6 +129,10 @@ class MenuLateral : AppCompatActivity() {
         Log.d("CierreSesion", "Sesión cerrada")
     }
 
+   /**
+    * La función verifica los privilegios del usuario y oculta ciertos elementos del menú según su
+    * nivel de acceso.
+    */
     fun permisos(){
 
         val auth = FirebaseAuth.getInstance()

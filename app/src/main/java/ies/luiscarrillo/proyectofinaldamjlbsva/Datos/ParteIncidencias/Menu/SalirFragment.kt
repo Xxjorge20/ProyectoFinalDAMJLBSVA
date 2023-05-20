@@ -13,6 +13,6 @@ class SalirFragment : Fragment(R.layout.fragment_salir) {
 
         // Cerrar sesión
 
-        }
+    }
 
 }

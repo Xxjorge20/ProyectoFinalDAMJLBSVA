@@ -12,6 +12,7 @@ open class Incidencia {
         BAJA, MEDIA, ALTA
     }
 
+    /* La clase define un tipo de enumeración llamado "tipoIncidencia" con cuatro valores posibles. */
     enum class tipoIncidencia {
         Informaticas, Mantenimiento, Electrico,Otros
     }
@@ -68,6 +69,15 @@ open class Incidencia {
         return "Incidencia(nombre='$nombre', descripcion='$descripcion', fecha='$fecha', acabada=$acabada, foto='$foto', prioridad='$prioridad')"
     }
 
+    /**
+     * Esta función inserta una incidencia en una base de datos de Firebase.
+     * 
+     * @param incidencia un objeto de tipo Incidencia, que contiene información sobre un incidente como
+     * su nombre, descripción, prioridad, tipo, fecha, si se ha completado o no, DNI y foto.
+     * @return un valor booleano que indica si la incidencia se insertó correctamente en la base de
+     * datos o no.
+     */
+
     // Insertar Incidencia en la BD
      fun InsertarIncidencia(incidencia: Incidencia) :Boolean{
 
@@ -108,32 +118,15 @@ open class Incidencia {
         return insertadoCorrectamente
     }
 
-    // Obtener la ID Incidencia
-    /*
-    fun getIDIncidencia(incidencia : Incidencia): String {
-        var auth = FirebaseAuth.getInstance()
-        val db = FirebaseFirestore.getInstance()
-        var idIncidencia = ""
 
-        auth.currentUser?.let {
-            db.collection("Incidencias").document(incidencia.ID).get()
-                .addOnSuccessListener { document ->
-                    if (document != null) {
-                        idIncidencia = document.getString("ID").toString()
-                        Log.d("Incidencia", "ID de la incidencia obtenida correctamente")
-                    } else {
-                        Log.d("Incidencia", "No existe la incidencia")
-                    }
-                }
-                .addOnFailureListener { exception ->
-                    Log.d("Incidencia", "Error al obtener la ID de la incidencia", exception)
-                }
-
-        }
-        return idIncidencia
-    }
+   /**
+    * La función elimina una incidencia de una base de datos de Firebase y su imagen correspondiente de
+    * Firebase Storage.
+    * 
+    * @param incidencia El parámetro "incidencia" es un String que representa el ID del incidente a
+    * eliminar de la base de datos y su imagen correspondiente del Firebase Storage.
+    * @return Un valor booleano que indica si la incidencia se eliminó correctamente o no.
     */
-    // Borra una incidencia de la BD
     fun BorrarIncidencia(incidencia: String): Boolean {
         var borradoCorrectamente = false
         val auth = FirebaseAuth.getInstance()
@@ -178,38 +171,12 @@ open class Incidencia {
 
 
     // Actualiza una incidencia de la BD
-    /*
-    fun actualizarIncidencia(id: String, incidencia: Incidencia) :Boolean{
-        var actualizadoCorrectamente = false
-        var auth = FirebaseAuth.getInstance()
-        val db = FirebaseFirestore.getInstance()
-
-        // Obtenemos la incidencia a actualizar
-        auth.currentUser?.let {
-            val datos = hashMapOf(
-                "nombre" to incidencia.nombre,
-                "descripcion" to incidencia.descripcion,
-                "prioridad" to incidencia.prioridad,
-                "fecha" to incidencia.fecha,
-                "acabada" to incidencia.acabada,
-                "foto" to incidencia.foto
-            )
-            db.collection("Incidencias").document(id).set(datos)
-                .addOnSuccessListener {
-                    actualizadoCorrectamente = true
-                    Log.d("Incidencia", "Incidencia actualizada correctamente")
-                }
-                .addOnFailureListener {
-                    actualizadoCorrectamente = false
-                    Log.d("Incidencia", "Error al actualizar la incidencia")
-                }
-        }
 
 
-        return actualizadoCorrectamente
-    }
-    */
     companion object {
+        /* La función `actualizarIncidencia` es una función de objeto complementaria de la clase `Incidencia`
+        en Kotlin. Toma como parámetro un objeto de tipo `Incidencia` y actualiza el documento
+        correspondiente en la base de datos de Firebase Firestore con los nuevos datos. */
         fun actualizarIncidencia(incidencia: Incidencia) {
 
             // Actualiza una incidencia de la BD

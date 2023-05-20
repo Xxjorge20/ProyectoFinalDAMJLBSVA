@@ -1,17 +1,24 @@
 package ies.luiscarrillodesotomayor.gestionincidencias.Menu
 
+import android.content.DialogInterface
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
+import androidx.core.app.ActivityCompat.finishAffinity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.type.DateTime
 import ies.luiscarrillo.proyectofinaldamjlbsva.Datos.ParteIncidencias.Adapter.adapterIncidencas
 import ies.luiscarrillo.proyectofinaldamjlbsva.Datos.ParteIncidencias.Data.DatosIncidencias
+import ies.luiscarrillo.proyectofinaldamjlbsva.Datos.ParteIncidencias.Menu.MenuLateral
 import ies.luiscarrillo.proyectofinaldamjlbsva.R
 import org.checkerframework.checker.units.qual.Current
 import java.text.SimpleDateFormat
@@ -65,10 +72,16 @@ class CasaFragment : Fragment() {
 
         recicler?.adapter = adapterIncidencas(listaIncidencias)
 
+
+
         return vista
     }
 
 
+    /**
+    * Esta función recupera datos de una base de datos de Firestore, los agrega a una lista, ordena la
+    * lista por fecha y la configura como adaptador para RecyclerView.
+    */
      fun cargarDatos() {
         val db = FirebaseFirestore.getInstance()
 

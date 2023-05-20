@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.os.SystemClock
 import android.provider.MediaStore
 import android.util.Log
+import android.view.KeyEvent
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -106,6 +107,7 @@ class ModificarIncidencia : Fragment() {
         binding.TBTituloIncidenciaModificar.setText(nombre)
         binding.TBTituloIncidenciaModificar.isEnabled = false // Desactivar el campo
         binding.TBDescripcionIncidencia2Modificar.setText(descripcion)
+        binding.TBDescripcionIncidencia2Modificar.isEnabled = false // Desactivar el campo
 
 
 
@@ -160,6 +162,45 @@ class ModificarIncidencia : Fragment() {
         }
 
 
+        // cargo la lista de prioridades
+        val tipoLista = Incidencia.tipoIncidencia.values()
+        val listaTipo = java.util.ArrayList<String>()
+        for (tipo in tipoLista) {
+            listaTipo.add(tipo.toString())
+        }
+
+        binding.listTipoModificar.adapter = android.widget.ArrayAdapter(
+            requireContext(),
+            android.R.layout.simple_list_item_1,
+            // recorro el array de prioridades y la añado a la lista
+            listaTipo
+
+        )
+
+
+        // evento click en la lista de prioridades
+        binding.listTipoModificar.setOnItemClickListener { parent, view, position, id ->
+            Toast.makeText(requireContext(), "Tipo seleccionada: ${tipoLista[position]}", Toast.LENGTH_SHORT).show()
+            Log.d("Tipo", tipoLista[position].toString())
+
+            // guardo la prioridad seleccionada
+            if (tipoLista[position] == Incidencia.tipoIncidencia.Informaticas) {
+                tipo = Incidencia.tipoIncidencia.Informaticas.toString()
+            } else if (tipoLista[position] == Incidencia.tipoIncidencia.Mantenimiento) {
+                tipo = Incidencia.tipoIncidencia.Mantenimiento.toString()
+            } else if (tipoLista[position] == Incidencia.tipoIncidencia.Electrico) {
+                tipo = Incidencia.tipoIncidencia.Electrico.toString()
+            }
+            else if (tipoLista[position] == Incidencia.tipoIncidencia.Otros) {
+                tipo = Incidencia.tipoIncidencia.Otros.toString()
+            }
+
+            ocultarTeclado()
+        }
+
+
+
+
         // Inflate the layout for this fragment
         return binding.root
     }
@@ -174,11 +215,15 @@ class ModificarIncidencia : Fragment() {
     }
 
 
+    /**
+     * Esta función actualiza una incidencia con nueva información y vuelve a la actividad principal.
+     */
     private fun actualizarIncidencia() {
 
 
         nombre = binding.TBTituloIncidenciaModificar.text.toString()
         descripcion = binding.TBDescripcionIncidencia2Modificar.text.toString()
+        var comentarioAdccional = binding.editText.text.toString()
 
         finalizada = binding.checkBoxSi.isChecked
 
@@ -188,16 +233,13 @@ class ModificarIncidencia : Fragment() {
         val incidencia = Incidencia(
 
             binding.TBTituloIncidenciaModificar.text.toString(),
-            binding.TBDescripcionIncidencia2Modificar.text.toString() + " \n Comentario añadido por: " + usuario,
+            descripcion.toString()+ "\n" + comentarioAdccional.toString() + " \n Comentario añadido por: " + usuario.toString(),
             fecha.toString(),
             finalizada,
             foto.toString(),
             prioridad.toString(),
             tipo.toString(),
             id.toString()
-
-
-
 
         )
 
@@ -215,6 +257,13 @@ class ModificarIncidencia : Fragment() {
     }
 
     // Obtener al usuario actual
+/**
+ * La función obtiene el correo electrónico del usuario actual y devuelve su nombre de usuario
+ * dividiendo el correo electrónico en el símbolo "@".
+ * 
+ * @return La función `obtenerUsuarioActual()` devuelve una cadena que representa la dirección de
+ * correo electrónico del usuario actual sin el nombre de dominio.
+ */
     private fun obtenerUsuarioActual(): String {
         val usuario = FirebaseAuth.getInstance().currentUser
         var usuarioActual = usuario?.email
