@@ -16,6 +16,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
@@ -182,6 +183,14 @@ class InsertarIncidenciaFragment : Fragment(R.layout.fragment_insertar_incidenci
 
 
 
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                // Realizar la navegación deseada cuando se presione el botón de retroceso
+                val homeFragment = Intent(activity, MenuLateral::class.java)
+                startActivity(homeFragment)
+                requireActivity().finish()
+            }
+        })
 
 
 

@@ -34,10 +34,12 @@
             <group>
                 <item
                     android:id="@+id/nav_verUsuarios"
-                    android:title="Ver Usuarios" />
+                    android:title="Ver Usuarios"
+                    android:icon="@drawable/veruser"
+                    />
                 <item
                     android:id="@+id/nav_insertarUsuario"
-
+                    android:icon="@drawable/anadiruser"
                     android:title="Insertar Usuario" />
                 <!--
                 <item
@@ -53,7 +55,9 @@
             <group>
                 <item
                     android:id="@+id/nav_configuracion"
-                    android:title="Configuración" />
+                    android:title="Configuración"
+                    android:icon="@drawable/config"
+                    />
             </group>
         </menu>
     </item>
@@ -64,6 +68,7 @@
             <group>
                 <item
                     android:id="@+id/nav_acercaDe"
+                    android:icon="@drawable/acercade"
                     android:title="Acerca de" />
             </group>
         </menu>

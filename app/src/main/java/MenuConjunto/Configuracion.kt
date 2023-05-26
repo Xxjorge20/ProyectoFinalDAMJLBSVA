@@ -8,6 +8,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.ActivityCompat.recreate
 import com.google.firebase.auth.FirebaseAuth
@@ -75,21 +77,30 @@ class Configuracion : Fragment() {
             recreate(requireActivity() as MenuLateral)
         }
 
-
-
-
-
-        binding!!.root.isFocusableInTouchMode = true
-        binding!!.root.requestFocus()
-        binding!!.root.setOnKeyListener { _, keyCode, _ ->
-            if (keyCode == KeyEvent.KEYCODE_BACK) {
-                // Si deseas cerrar el Fragment actual, puedes utilizar fragmentManager
-                fragmentManager?.beginTransaction()?.remove(this)?.commit()
-                return@setOnKeyListener true
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                // Realizar la navegación deseada cuando se presione el botón de retroceso
+                val homeFragment = Intent(activity, MenuLateral::class.java)
+                startActivity(homeFragment)
+                requireActivity().finish()
             }
-            return@setOnKeyListener false
-        }
+        })
 
+
+        binding!!.BTCambiarContraseA.setOnClickListener {
+
+            val auth = FirebaseAuth.getInstance()
+            val emailAddress = auth.currentUser?.email.toString()
+
+            auth.sendPasswordResetEmail(emailAddress)
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        Toast.makeText(activity, "Se ha enviado un correo para cambiar la contraseña", Toast.LENGTH_SHORT).show()
+                    }
+                }
+
+            true
+        }
 
 
         return binding!!.root

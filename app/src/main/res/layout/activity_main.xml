@@ -23,17 +23,20 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
+
         android:id="@+id/correo"
         android:layout_width="281dp"
         android:layout_height="64dp"
+        android:drawableLeft="@drawable/email"
+        android:drawablePadding="10dp"
         android:layout_marginBottom="8dp"
         android:backgroundTint="#D50000"
         android:backgroundTintMode="src_over"
         android:ems="10"
         android:hint="Correo Electronico"
         android:inputType="textPersonName"
-        android:textColorHint="@color/gris"
         android:textColor="@color/white"
+        android:textColorHint="@color/gris"
         app:layout_constraintBottom_toTopOf="@+id/EscribirContrasena"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -41,6 +44,8 @@
     <EditText
         android:id="@+id/EscribirContrasena"
         android:layout_width="280dp"
+        android:drawableLeft="@drawable/password"
+        android:drawablePadding="10dp"
         android:layout_height="87dp"
         android:layout_marginBottom="40dp"
         android:backgroundTint="#D50000"
@@ -53,6 +58,20 @@
         app:layout_constraintBottom_toTopOf="@+id/sesion"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.503"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+    <ImageButton
+        android:id="@+id/verContrasena"
+        android:layout_width="39dp"
+        android:layout_height="37dp"
+        android:layout_marginBottom="216dp"
+        android:background="#00FFFFFF"
+        android:backgroundTint="#FFFFFF"
+        android:src="@drawable/eyepassword"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.956"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button

@@ -10,9 +10,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import ies.luiscarrillo.proyectofinaldamjlbsva.Datos.ParteIncidencias.Menu.MenuLateral
 import ies.luiscarrillo.proyectofinaldamjlbsva.databinding.ActivityRegistroBinding
 import ies.luiscarrillo.proyectofinaldamjlbsva.R
 
@@ -26,6 +28,15 @@ class RegistroFragment : Fragment() {
         binding = ActivityRegistroBinding.inflate(inflater, container, false)
 
         activity?.title = "Nuevo Usuario"
+
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                // Realizar la navegación deseada cuando se presione el botón de retroceso
+                val homeFragment = Intent(activity, MenuLateral::class.java)
+                startActivity(homeFragment)
+                requireActivity().finish()
+            }
+        })
 
         return binding.root
     }

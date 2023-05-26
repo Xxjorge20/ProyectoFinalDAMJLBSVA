@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import com.google.firebase.auth.FirebaseAuth
 import ies.luiscarrillo.proyectofinaldamjlbsva.Datos.ParteIncidencias.Menu.MenuLateral
 import ies.luiscarrillo.proyectofinaldamjlbsva.R
@@ -43,7 +44,14 @@ class AcercaDe : Fragment() {
         binding = FragmentAcercaDeBinding.inflate(inflater, container, false)
         activity?.title = "Acerca de"
 
-
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                // Realizar la navegación deseada cuando se presione el botón de retroceso
+                val homeFragment = Intent(activity, MenuLateral::class.java)
+                startActivity(homeFragment)
+                requireActivity().finish()
+            }
+        })
 
         return binding.root
     }

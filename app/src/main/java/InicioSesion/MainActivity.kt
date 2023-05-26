@@ -3,6 +3,7 @@ package InicioSesion
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
+import android.text.InputType
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -11,6 +12,7 @@ import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import ies.luiscarrillo.proyectofinaldamjlbsva.Datos.ParteIncidencias.Menu.MenuLateral
+import ies.luiscarrillo.proyectofinaldamjlbsva.R
 import ies.luiscarrillo.proyectofinaldamjlbsva.databinding.ActivityInicioBinding
 import ies.luiscarrillo.proyectofinaldamjlbsva.databinding.ActivityMainBinding
 import ies.luiscarrillo.proyectofinaldamjlbsva.databinding.ActivityRegistroBinding
@@ -19,7 +21,7 @@ import ies.luiscarrillo.proyectofinaldamjlbsva.databinding.ActivityRegistroBindi
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-
+    private var isPasswordVisible = false
 
 
    /**
@@ -71,9 +73,29 @@ class MainActivity : AppCompatActivity() {
         }
 
 
+       binding.verContrasena.setOnClickListener{
+           togglePasswordVisibility()
+           true
+
+       }
+
 
 
     }
+
+    private fun togglePasswordVisibility() {
+        isPasswordVisible = !isPasswordVisible
+
+        if (isPasswordVisible) {
+            binding.EscribirContrasena.inputType = InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+            binding.verContrasena.setImageResource(R.drawable.eyepassword)
+        } else {
+            binding.EscribirContrasena.inputType =
+                InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+            binding.verContrasena.setImageResource(R.drawable.eyepassword)
+        }
+    }
+
 
    /**
     * La función comprueba si el usuario ha iniciado sesión. Si es así, se llama a la función

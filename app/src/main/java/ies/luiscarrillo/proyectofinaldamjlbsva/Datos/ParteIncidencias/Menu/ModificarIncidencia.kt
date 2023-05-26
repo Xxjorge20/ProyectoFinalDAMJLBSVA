@@ -15,6 +15,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.FragmentManager
@@ -199,7 +200,14 @@ class ModificarIncidencia : Fragment() {
         }
 
 
-
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                // Realizar la navegación deseada cuando se presione el botón de retroceso
+                val homeFragment = Intent(activity, MenuLateral::class.java)
+                startActivity(homeFragment)
+                requireActivity().finish()
+            }
+        })
 
         // Inflate the layout for this fragment
         return binding.root

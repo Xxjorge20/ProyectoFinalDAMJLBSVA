@@ -1,5 +1,6 @@
 package ies.luiscarrillodesotomayor.gestionincidencias.Menu
 
+import InicioSesion.MainActivity
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
@@ -8,6 +9,7 @@ import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat.finishAffinity
 import androidx.fragment.app.Fragment
@@ -72,6 +74,15 @@ class CasaFragment : Fragment() {
 
         recicler?.adapter = adapterIncidencas(listaIncidencias)
 
+
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                // Realizar la navegación deseada cuando se presione el botón de retroceso
+                val homeFragment = Intent(activity, MainActivity::class.java)
+                startActivity(homeFragment)
+                requireActivity().finish()
+            }
+        })
 
 
         return vista
