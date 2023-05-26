@@ -2,24 +2,19 @@ package InicioSesion
 
 import MenuConjunto.Notificaciones
 import ParteUsuarios.Data.Usuarios
-import ParteUsuarios.InicioFragment
-
-import android.R
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
-
 import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import ies.luiscarrillo.proyectofinaldamjlbsva.Datos.ParteIncidencias.Menu.MenuLateral
 import ies.luiscarrillo.proyectofinaldamjlbsva.databinding.ActivityRegistroBinding
+import ies.luiscarrillo.proyectofinaldamjlbsva.R
 
 class RegistroFragment : Fragment() {
 
@@ -47,7 +42,7 @@ class RegistroFragment : Fragment() {
             listaPrivilegiosString.add(privilegio.toString())
         }
         binding.listaPrivi.adapter = ArrayAdapter(
-            requireContext(), R.layout.simple_list_item_1,
+            requireContext(), R.layout.list_item_custom,
             listaPrivilegiosString
         )
 
@@ -88,6 +83,19 @@ class RegistroFragment : Fragment() {
 
                     FirebaseAuth.getInstance().createUserWithEmailAndPassword(
                         usuario.email, usuario.password).addOnCompleteListener{
+
+
+                         // VERIFICACION DE CORREO
+                        usuarioA?.sendEmailVerification()?.addOnCompleteListener { emailVerificationTask ->
+                            if (emailVerificationTask.isSuccessful) {
+                                Toast.makeText(
+                                    context,
+                                    "Registro exitoso. Se ha enviado un correo de verificación.",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        }
+
 
                         if (it.isSuccessful){
                             db.collection("usuarios").document(usuario.email)

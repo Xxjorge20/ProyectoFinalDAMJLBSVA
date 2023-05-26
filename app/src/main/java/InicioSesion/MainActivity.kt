@@ -19,8 +19,7 @@ import ies.luiscarrillo.proyectofinaldamjlbsva.databinding.ActivityRegistroBindi
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private lateinit var binding1 : ActivityInicioBinding
-    private lateinit var binding2 : ActivityRegistroBinding
+
 
 
    /**
@@ -36,18 +35,35 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         FirebaseApp.initializeApp(this)
         binding = ActivityMainBinding.inflate(layoutInflater)
-        binding1 = ActivityInicioBinding.inflate(layoutInflater)
-        binding2 = ActivityRegistroBinding.inflate(layoutInflater)
+
         setContentView(binding.root)
 
         binding.sesion.setOnClickListener{
             // Al pulsar sobre el botón INICIAR SESION, comprobamos autentificacion
             //pasandole a Firebase el correo y la contraseña
             login { userName ->
-                val intent = Intent(this, MenuLateral::class.java)
-                intent.putExtra("correo", binding.correo.text.toString())
-                intent.putExtra("nombre", userName)
-                startActivity(intent)
+
+
+
+
+
+                val user = FirebaseAuth.getInstance().currentUser
+                if (user != null && user.isEmailVerified)
+                {
+
+                    val intent = Intent(this, MenuLateral::class.java)
+                    intent.putExtra("correo", binding.correo.text.toString())
+                    intent.putExtra("nombre", userName)
+                    startActivity(intent)
+
+                } else {
+                    Toast.makeText(
+                        this,
+                        "Debes verificar tu correo electrónico antes de iniciar sesión.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+
             }
         }
         binding.botonOlvidado.setOnClickListener{
@@ -74,9 +90,9 @@ class MainActivity : AppCompatActivity() {
                .addOnCompleteListener { task ->
                    // Si la autenticación tuvo éxito:
                    if (task.isSuccessful) {
-                       var nombre = ""
-                       var apellidos = ""
-                       var userName = ""
+                       var nombre: String
+                       var apellidos: String
+                       var userName: String
 
                        val auth = FirebaseAuth.getInstance()
                        val db = FirebaseFirestore.getInstance()
@@ -98,6 +114,9 @@ class MainActivity : AppCompatActivity() {
                                    Log.d("Usuario", "Error al obtener el usuario", exception)
                                }
                        }
+
+
+
                    } else {
                        Toast.makeText(this, "Correo o contraseña incorrecta", Toast.LENGTH_SHORT).show()
                    }

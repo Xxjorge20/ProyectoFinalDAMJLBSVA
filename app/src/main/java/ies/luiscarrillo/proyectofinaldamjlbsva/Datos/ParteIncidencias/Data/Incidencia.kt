@@ -8,26 +8,25 @@ import com.google.firebase.storage.FirebaseStorage
 open class Incidencia {
 
     // Enumeracion de tipo de prioridad
-    enum class Prioridad  {
+    enum class Prioridad {
         BAJA, MEDIA, ALTA
     }
 
     /* La clase define un tipo de enumeración llamado "tipoIncidencia" con cuatro valores posibles. */
     enum class tipoIncidencia {
-        Informaticas, Mantenimiento, Electrico,Otros
+        Informaticas, Mantenimiento, Electrico, Otros
     }
 
 
-
     // Miembros de la clase Incidencia
-     var nombre: String = ""
-     var descripcion: String = ""
-     var fecha: String = ""
-     var acabada: Boolean = false
-     var foto: String = ""
-     var prioridad: String = ""
-     var tipo: String = ""
-     private var ID: String = ""
+    var nombre: String = ""
+    var descripcion: String = ""
+    var fecha: String = ""
+    var acabada: Boolean = false
+    var foto: String = ""
+    var prioridad: String = ""
+    var tipo: String = ""
+    private var ID: String = ""
 
 
     // Constructor de la clase Incidencia
@@ -37,7 +36,7 @@ open class Incidencia {
         descripcion: String,
         acabada: Boolean,
         prioridad: String,
-        tipo :String,
+        tipo: String,
         foto: String
     ) {
         this.nombre = nombre
@@ -50,22 +49,31 @@ open class Incidencia {
     }
 
     // Constructor de la clase Incidencia para Firebase
-     constructor(nombre: String, descripcion: String, fecha: String, acabada: Boolean, foto: String,prioridad: String,tipo: String, id: String) {
-            this.nombre = nombre
-            this.descripcion = descripcion
-            this.fecha = fecha
-            this.acabada = acabada
-            this.foto = foto
-            this.prioridad = prioridad
-            this.tipo = tipo
-            this.ID = id
+    constructor(
+        nombre: String,
+        descripcion: String,
+        fecha: String,
+        acabada: Boolean,
+        foto: String,
+        prioridad: String,
+        tipo: String,
+        id: String
+    ) {
+        this.nombre = nombre
+        this.descripcion = descripcion
+        this.fecha = fecha
+        this.acabada = acabada
+        this.foto = foto
+        this.prioridad = prioridad
+        this.tipo = tipo
+        this.ID = id
 
-     }
+    }
 
     // Metodos de la clase Incidencia
 
     // Metodo para los datos de la incidencia
-    override fun  toString(): String {
+    override fun toString(): String {
         return "Incidencia(nombre='$nombre', descripcion='$descripcion', fecha='$fecha', acabada=$acabada, foto='$foto', prioridad='$prioridad')"
     }
 
@@ -119,14 +127,15 @@ open class Incidencia {
     }
 
 
-   /**
-    * La función elimina una incidencia de una base de datos de Firebase y su imagen correspondiente de
-    * Firebase Storage.
-    * 
-    * @param incidencia El parámetro "incidencia" es un String que representa el ID del incidente a
-    * eliminar de la base de datos y su imagen correspondiente del Firebase Storage.
-    * @return Un valor booleano que indica si la incidencia se eliminó correctamente o no.
-    */
+
+    /**
+     * La función elimina una incidencia y su imagen correspondiente de Firebase Firestore y Storage,
+     * respectivamente.
+     * 
+     * @param incidencia El parámetro "incidencia" es una cadena que representa el ID del incidente a
+     * eliminar de la base de datos y su imagen correspondiente del Firebase Storage.
+     * @return Un valor booleano que indica si la incidencia se eliminó correctamente o no.
+     */
     fun BorrarIncidencia(incidencia: String): Boolean {
         var borradoCorrectamente = false
         val auth = FirebaseAuth.getInstance()

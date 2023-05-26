@@ -1,8 +1,5 @@
 package ies.luiscarrillo.proyectofinaldamjlbsva.Datos.ParteIncidencias.Data
 
-import android.graphics.Bitmap
-import android.net.Uri
-
 /**
  * Esta es una clase de datos para almacenar información sobre incidentes, incluidos el nombre, la
  * fecha, la descripción, el estado de finalización, la prioridad, el tipo, la identificación y la

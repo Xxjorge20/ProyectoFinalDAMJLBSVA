@@ -39,15 +39,26 @@ class MenuLateral : AppCompatActivity() {
         toggle.syncState()
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-
-
-
         // cargo el header del menu lateral
         val header = binding.navView.getHeaderView(0)
         val email = header.findViewById<TextView>(R.id.TBCorreoUserName)
         val nombre = header.findViewById<TextView>(R.id.TBUserName)
-        email.text = intent.getStringExtra("correo")
-        nombre.text = intent.getStringExtra("nombre")
+
+
+        email.text = obtenerCorreo()
+        obtenerUsername { username ->
+            // Hacer algo con el valor de username aquí
+            Log.d("Usuario", "Username obtenido: $username")
+
+            if (username != null) {
+                nombre.text = username
+            }
+            else
+            {
+                nombre.text = "Usuario"
+            }
+
+        }
 
         permisos()
 
@@ -103,7 +114,7 @@ class MenuLateral : AppCompatActivity() {
             binding.drawer.closeDrawer(START)
             true
         }
-    }
+        }
 
 /**
  * Esta función maneja la selección de elementos del menú y alterna el menú si es necesario.
@@ -161,6 +172,33 @@ class MenuLateral : AppCompatActivity() {
             }
     }
 
+
+    fun obtenerUsername(callback: (String) -> Unit) {
+        val auth = FirebaseAuth.getInstance()
+        val correo = auth.currentUser?.email.toString()
+        val db = FirebaseFirestore.getInstance()
+
+        db.collection("usuarios").document(correo).get()
+            .addOnSuccessListener { documentSnapshot ->
+                var username = ""
+                if (documentSnapshot.exists()) {
+                    val nombre = documentSnapshot.getString("Nombre")
+                    val apellido = documentSnapshot.getString("Apellidos")
+                    username = "$nombre $apellido"
+                    Log.d("Usuario", "Datos Usuario: $username")
+                }
+                Log.d("Usuario", "Datos Usuario: ${documentSnapshot.data}")
+                callback(username) // Llamar a la devolución de llamada con el valor de username
+            }
+    }
+
+
+    fun obtenerCorreo() : String {
+        var correo = ""
+        val auth = FirebaseAuth.getInstance()
+        correo = auth.currentUser?.email.toString()
+        return correo
+    }
 
 
 }

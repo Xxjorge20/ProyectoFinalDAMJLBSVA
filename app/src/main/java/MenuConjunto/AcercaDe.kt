@@ -26,7 +26,7 @@ class AcercaDe : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
-    private  var binding: FragmentAcercaDeBinding? = null
+    private lateinit var binding: FragmentAcercaDeBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,16 +40,14 @@ class AcercaDe : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-        activity?.setTitle("Acerca de")
-
-
+        binding = FragmentAcercaDeBinding.inflate(inflater, container, false)
+        activity?.title = "Acerca de"
 
 
 
-        // Inflate the layout for this fragment
-        return binding!!.root
+        return binding.root
     }
+
 
     companion object {
         /**

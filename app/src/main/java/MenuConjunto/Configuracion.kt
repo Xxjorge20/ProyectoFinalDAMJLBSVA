@@ -47,47 +47,44 @@ class Configuracion : Fragment() {
         activity?.setTitle("Configuracion")
         // Inflate the layout for this fragment
         binding= FragmentConfiguracionBinding.inflate(inflater, container, false)
+
+
+        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
+            binding!!.switch1.isChecked = true
+        } else {
+            binding!!.switch1.isChecked = false
+        }
+
+
+
         binding!!.switch1.setOnClickListener {
             val currentNightMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
             if (binding!!.switch1.isChecked) {
                 // Activar modo oscuro
                 if (currentNightMode == Configuration.UI_MODE_NIGHT_NO) {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                    binding!!.switch1.isChecked = true
                 }
             } else {
                 // Activar modo claro
                 if (currentNightMode == Configuration.UI_MODE_NIGHT_YES) {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                    binding!!.switch1.isChecked = false
                 }
             }
             recreate(requireActivity() as MenuLateral)
         }
 
 
+
+
+
         binding!!.root.isFocusableInTouchMode = true
         binding!!.root.requestFocus()
         binding!!.root.setOnKeyListener { _, keyCode, _ ->
             if (keyCode == KeyEvent.KEYCODE_BACK) {
-
-                var usuario = FirebaseAuth.getInstance().currentUser
-                var correo = usuario?.email.toString()
-                var nameUser = correo.split("@")[0]
-
-                // Aquí puedes realizar las acciones que deseas cuando se presiona el botón de retroceso
-                // Por ejemplo, puedes cerrar el Fragment actual o mostrar un diálogo de confirmación antes de cerrarlo
-
-
-
                 // Si deseas cerrar el Fragment actual, puedes utilizar fragmentManager
                 fragmentManager?.beginTransaction()?.remove(this)?.commit()
-
-                val CasaFragment = Intent(activity, MenuLateral::class.java)
-                CasaFragment.putExtra("correo", correo)
-                CasaFragment.putExtra("nombre", nameUser)
-                startActivity(CasaFragment)
-
-
-
                 return@setOnKeyListener true
             }
             return@setOnKeyListener false

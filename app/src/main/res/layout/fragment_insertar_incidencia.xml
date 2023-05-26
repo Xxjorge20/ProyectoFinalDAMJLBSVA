@@ -153,7 +153,7 @@
         <ListView
             android:id="@+id/listTipoIncidencia"
             android:layout_width="match_parent"
-            android:layout_height="139dp"
+            android:layout_height="150dp"
             android:layout_marginTop="20dp"
             android:background="#00FFFFFF"
             app:layout_constraintEnd_toEndOf="parent"

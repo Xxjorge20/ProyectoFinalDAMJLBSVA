@@ -96,8 +96,6 @@ class CasaFragment : Fragment() {
 
                     listaIncidencias.add(incidencia)
 
-
-
                 }
 
                 // Ordeno la lista de incidencias por fecha de forma descendente (la más reciente primero)

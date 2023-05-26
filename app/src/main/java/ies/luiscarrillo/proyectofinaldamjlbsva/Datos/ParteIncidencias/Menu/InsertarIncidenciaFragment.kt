@@ -5,6 +5,8 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.drawable.Drawable
 import android.media.MediaScannerConnection
 import android.os.*
 import android.provider.MediaStore
@@ -14,6 +16,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.storage.FirebaseStorage
@@ -46,6 +49,9 @@ class InsertarIncidenciaFragment : Fragment(R.layout.fragment_insertar_incidenci
     private lateinit var rutaFoto : String
     private lateinit var urlDescargarFoto : String
 
+    val nombre = arguments?.get("nombre").toString()
+
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -58,11 +64,17 @@ class InsertarIncidenciaFragment : Fragment(R.layout.fragment_insertar_incidenci
         _binding = FragmentInsertarIncidenciaBinding.inflate(inflater, container, false)
         val view = binding.root
 
+        imagenVarible = BitmapFactory.decodeResource(resources, R.drawable.incidencia)
+
         binding.TBFechaIncidencia.setText(obtenerFechaHoraActual())
         binding.TBFechaIncidencia.isEnabled = false
 
         activity?.setTitle("Insertar Incidencias")
+        
 
+
+
+        
         // cargo la lista de prioridades
         val listaPrioridades = Incidencia.Prioridad.values()
         val listaPrioridadesString = ArrayList<String>()
@@ -72,11 +84,14 @@ class InsertarIncidenciaFragment : Fragment(R.layout.fragment_insertar_incidenci
 
         binding.listPrioridad.adapter = android.widget.ArrayAdapter(
             requireContext(),
-            android.R.layout.simple_list_item_1,
+            R.layout.list_item_custom,
             // recorro el array de prioridades y la añado a la lista
             listaPrioridadesString
 
         )
+
+
+
 
         // evento click en la lista de prioridades
         binding.listPrioridad.setOnItemClickListener { parent, view, position, id ->
@@ -105,7 +120,7 @@ class InsertarIncidenciaFragment : Fragment(R.layout.fragment_insertar_incidenci
 
         binding.listTipoIncidencia.adapter = android.widget.ArrayAdapter(
             requireContext(),
-            android.R.layout.simple_list_item_1,
+            R.layout.list_item_custom,
             // recorro el array de prioridades y la añado a la lista
             listaTipo
 
@@ -264,7 +279,7 @@ class InsertarIncidenciaFragment : Fragment(R.layout.fragment_insertar_incidenci
 
 
                     val CasaFragment = Intent(activity, MenuLateral::class.java)
-                    CasaFragment.putExtra("foto", imagenVarible)
+                   // CasaFragment.putExtra("foto", imagenVarible)
                     CasaFragment.putExtra("correo", correo)
                     CasaFragment.putExtra("nombre", nameUser)
                     startActivity(CasaFragment)
