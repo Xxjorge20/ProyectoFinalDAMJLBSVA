@@ -47,6 +47,7 @@ open class Incidencia {
         this.acabada = acabada
         this.prioridad = prioridad.toString()
         this.tipo = tipo
+        this.lugar = lugar
         this.foto = foto
     }
 
@@ -69,6 +70,7 @@ open class Incidencia {
         this.foto = foto
         this.prioridad = prioridad
         this.tipo = tipo
+        this.lugar = lugar
         this.ID = id
 
     }
@@ -111,7 +113,7 @@ open class Incidencia {
                 "prioridad" to incidencia.prioridad,
                 "tipo" to incidencia.tipo,
                 "lugar" to incidencia.lugar,
-                "ID" to incidencia.ID,
+                "id" to incidencia.ID,
             )
 
             // Inserto los datos en la BD de Firebase
@@ -146,7 +148,7 @@ open class Incidencia {
         val auth = FirebaseAuth.getInstance()
         val db = FirebaseFirestore.getInstance()
         auth.currentUser?.let {
-            db.collection("Incidencias").whereEqualTo("ID", incidencia).get()
+            db.collection("Incidencias").whereEqualTo("id", incidencia).get()
                 .addOnSuccessListener { documents ->
                     for (document in documents) {
                         // Eliminar la incidencia en la base de datos
@@ -215,14 +217,15 @@ open class Incidencia {
                     .addOnSuccessListener {
 
                         Log.d("Incidencia", "Incidencia actualizada correctamente")
-                        Log.d("Incidencia", incidencia.ID)
-                        Log.d("Incidencia", incidencia.nombre)
-                        Log.d("Incidencia", incidencia.descripcion)
-                        Log.d("Incidencia", incidencia.prioridad)
-                        Log.d("Incidencia", incidencia.fecha)
-                        Log.d("Incidencia", incidencia.acabada.toString())
-                        Log.d("Incidencia", incidencia.tipo)
-                        Log.d("Incidencia", incidencia.foto)
+                        Log.d("Incidencia ID", incidencia.ID)
+                        Log.d("Incidencia NOMBRE", incidencia.nombre)
+                        Log.d("Incidencia DESCRIPCION", incidencia.descripcion)
+                        Log.d("Incidencia PRIORIDAD", incidencia.prioridad)
+                        Log.d("Incidencia FECHA", incidencia.fecha)
+                        Log.d("Incidencia ACABADA", incidencia.acabada.toString())
+                        Log.d("Incidencia TIPO", incidencia.tipo)
+                        Log.d("Incidencia FOTO", incidencia.foto)
+                        Log.d("Incidencia LUGAR", incidencia.lugar)
                     }
                     .addOnFailureListener {
 

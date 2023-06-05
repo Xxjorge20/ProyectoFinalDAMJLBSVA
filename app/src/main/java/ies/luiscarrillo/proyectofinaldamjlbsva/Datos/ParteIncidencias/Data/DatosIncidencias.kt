@@ -35,7 +35,7 @@ data class DatosIncidencias (
    var prioridad: String = "",
    var tipo: String = "",
    var lugar: String = "",
-   var ID: String ="",
+   var id: String ="",
 
 )
 

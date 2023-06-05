@@ -85,7 +85,7 @@ class ModificarIncidencia : Fragment() {
         prioridad = arguments?.getString("prioridad")
         tipo = arguments?.getString("tipo")
         lugar = arguments?.getString("lugar")
-        id = arguments?.getString("ID")
+        id = arguments?.getString("id")
 
 
 
@@ -109,6 +109,7 @@ class ModificarIncidencia : Fragment() {
         Log.i("ModificarIncidencia", "ID: $id")
         Log.i("ModificarIncidencia", "Foto: $foto")
         Log.i("ModificarIncidencia", "Tipo: $tipo")
+        Log.i("ModificarIncidencia", "Lugar: $lugar")
 
         // Limpiar los campos
         resetear()
@@ -291,6 +292,7 @@ class ModificarIncidencia : Fragment() {
                 nombre = binding.TBTituloIncidenciaModificar.text.toString()
                 descripcion = binding.TBDescripcionIncidencia2Modificar.text.toString()
                 var comentarioAdccional = binding.editText.text.toString()
+
 
                 finalizada = binding.checkBoxSi.isChecked
 

@@ -165,7 +165,7 @@ class adapterIncidencas(private var incidencias: ArrayList<DatosIncidencias>) : 
         // Llevar datos a la actividad de modificar incidencia para que los muestre
         val fragment = ModificarIncidencia()
         val args  = Bundle()
-        args.putString("ID", datosIncidencias.ID)
+        args.putString("id", datosIncidencias.id)
         args.putString("nombre", datosIncidencias.nombre)
         args.putString("fecha", datosIncidencias.fecha)
         args.putString("descripcion", datosIncidencias.descripcion)
@@ -173,7 +173,7 @@ class adapterIncidencas(private var incidencias: ArrayList<DatosIncidencias>) : 
         args.putBoolean("acabada", datosIncidencias.acabada)
         args.putString("foto", datosIncidencias.foto)
         args.putString("tipo", datosIncidencias.tipo)
-       args.putString("lugar", datosIncidencias.lugar)
+        args.putString("lugar", datosIncidencias.lugar)
 
 
         fragment.arguments = args
@@ -202,7 +202,7 @@ class adapterIncidencas(private var incidencias: ArrayList<DatosIncidencias>) : 
         var respuesta = false
         val builder = AlertDialog.Builder(holder.itemView.context)
         builder.setTitle("¿Que Desea Hacer?")
-        builder.setMessage(datosIncidencias.ID + " - " + datosIncidencias.nombre)
+        builder.setMessage(datosIncidencias.id + " - " + datosIncidencias.nombre)
 
         builder.setPositiveButton("Modificar") { dialog, which ->
 
@@ -248,7 +248,7 @@ class adapterIncidencas(private var incidencias: ArrayList<DatosIncidencias>) : 
         var respuesta = false
         val builder = AlertDialog.Builder(holder.itemView.context)
         builder.setTitle("¿Desea borrar la incidencia?")
-        builder.setMessage(datosIncidencias.ID + " - " + datosIncidencias.nombre)
+        builder.setMessage(datosIncidencias.id + " - " + datosIncidencias.nombre)
 
         builder.setPositiveButton("Confirmar") { dialog, which ->
 
@@ -262,8 +262,8 @@ class adapterIncidencas(private var incidencias: ArrayList<DatosIncidencias>) : 
                 datosIncidencias.prioridad,
                 datosIncidencias.tipo,
                 datosIncidencias.lugar,
-                datosIncidencias.ID
-            ).BorrarIncidencia(datosIncidencias.ID) // Llamo a la funcion de borrar incidencia
+                datosIncidencias.id
+            ).BorrarIncidencia(datosIncidencias.id) // Llamo a la funcion de borrar incidencia
 
             val position = incidencias.indexOf(datosIncidencias)
             incidencias.removeAt(position)
