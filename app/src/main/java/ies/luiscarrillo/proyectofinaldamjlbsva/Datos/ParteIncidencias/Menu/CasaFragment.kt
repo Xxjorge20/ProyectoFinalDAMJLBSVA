@@ -93,7 +93,8 @@ class CasaFragment : Fragment() {
     * Esta función recupera datos de una base de datos de Firestore, los agrega a una lista, ordena la
     * lista por fecha y la configura como adaptador para RecyclerView.
     */
-     fun cargarDatos() {
+
+    fun cargarDatos() {
         val db = FirebaseFirestore.getInstance()
 
         // Obtengo los datos de la base de datos
@@ -104,16 +105,15 @@ class CasaFragment : Fragment() {
                     Log.d("AñadiendoIncidencias", "${document.id} => ${document.data}")
                     val incidencia = document.toObject(DatosIncidencias::class.java)
 
-
                     listaIncidencias.add(incidencia)
 
                 }
 
                 // Ordeno la lista de incidencias por fecha de forma descendente (la más reciente primero)
-                listaIncidencias.sortByDescending { it.fecha }
+                listaIncidencias.sortBy { it.fecha }
 
 
-              var adapter = adapterIncidencas(listaIncidencias)
+                var adapter = adapterIncidencas(listaIncidencias)
                 recicler?.adapter = adapter
             }
             .addOnFailureListener { exception ->

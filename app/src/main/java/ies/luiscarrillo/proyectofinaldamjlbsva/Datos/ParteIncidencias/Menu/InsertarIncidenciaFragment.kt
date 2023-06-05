@@ -15,11 +15,13 @@ import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.google.type.DateTime
 import ies.luiscarrillo.proyectofinaldamjlbsva.Datos.ParteIncidencias.Data.Incidencia
@@ -61,7 +63,7 @@ class InsertarIncidenciaFragment : Fragment(R.layout.fragment_insertar_incidenci
         urlDescargarFoto = ""
         data = ByteArray(0)
         imagenVarible  = Bitmap.createBitmap(100,100, Bitmap.Config.ARGB_8888)
-        var incidencia = Incidencia("","","",false,"Baja","", urlDescargarFoto,)
+        var incidencia = Incidencia("","","",false,"","","",urlDescargarFoto)
         _binding = FragmentInsertarIncidenciaBinding.inflate(inflater, container, false)
         val view = binding.root
 
@@ -99,14 +101,32 @@ class InsertarIncidenciaFragment : Fragment(R.layout.fragment_insertar_incidenci
             Toast.makeText(requireContext(), "Prioridad seleccionada: ${listaPrioridades[position]}", Toast.LENGTH_SHORT).show()
             Log.d("Prioridad", listaPrioridades[position].toString())
 
+            // Limpio el color de fondo de todos los items y lo pongo transparente
+            for (i in 0 until binding.listPrioridad.count) {
+                binding.listPrioridad.getChildAt(i).setBackgroundColor(resources.getColor(android.R.color.transparent))
+            }
+
+
             // guardo la prioridad seleccionada
             if (listaPrioridades[position] == Incidencia.Prioridad.ALTA) {
                 incidencia.prioridad = Incidencia.Prioridad.ALTA.toString()
+
+                // Establezco el color de fondo solo al item seleccionado
+                binding.listPrioridad.getChildAt(position).setBackgroundColor(resources.getColor(R.color.purple_700))
+
             } else if (listaPrioridades[position] == Incidencia.Prioridad.MEDIA) {
                 incidencia.prioridad = Incidencia.Prioridad.MEDIA.toString()
+                // Establezco el color de fondo solo al item seleccionado
+                binding.listPrioridad.getChildAt(position).setBackgroundColor(resources.getColor(R.color.purple_700))
+
+
             } else if (listaPrioridades[position] == Incidencia.Prioridad.BAJA) {
                 incidencia.prioridad = Incidencia.Prioridad.BAJA.toString()
+                // Establezco el color de fondo solo al item seleccionado
+                binding.listPrioridad.getChildAt(position).setBackgroundColor(resources.getColor(R.color.purple_700))
             }
+
+
 
             ocultarTeclado()
         }
@@ -133,16 +153,38 @@ class InsertarIncidenciaFragment : Fragment(R.layout.fragment_insertar_incidenci
             Toast.makeText(requireContext(), "Tipo seleccionada: ${tipoLista[position]}", Toast.LENGTH_SHORT).show()
             Log.d("Tipo", tipoLista[position].toString())
 
+            // Limpio el color de fondo de todos los items y lo pongo transparente
+            for (i in 0 until binding.listTipoIncidencia.count) {
+                binding.listTipoIncidencia.getChildAt(i).setBackgroundColor(resources.getColor(android.R.color.transparent))
+            }
+
+
             // guardo la prioridad seleccionada
             if (tipoLista[position] == Incidencia.tipoIncidencia.Informaticas) {
                 incidencia.tipo = Incidencia.tipoIncidencia.Informaticas.toString()
+
+                // Establezco el color de fondo solo al item seleccionado
+                binding.listTipoIncidencia.getChildAt(position).setBackgroundColor(resources.getColor(R.color.purple_700))
+
             } else if (tipoLista[position] == Incidencia.tipoIncidencia.Mantenimiento) {
                 incidencia.tipo = Incidencia.tipoIncidencia.Mantenimiento.toString()
+
+                // Establezco el color de fondo solo al item seleccionado
+                binding.listTipoIncidencia.getChildAt(position).setBackgroundColor(resources.getColor(R.color.purple_700))
+
             } else if (tipoLista[position] == Incidencia.tipoIncidencia.Electrico) {
                 incidencia.tipo = Incidencia.tipoIncidencia.Electrico.toString()
+
+                // Establezco el color de fondo solo al item seleccionado
+                binding.listTipoIncidencia.getChildAt(position).setBackgroundColor(resources.getColor(R.color.purple_700))
+
             }
             else if (tipoLista[position] == Incidencia.tipoIncidencia.Otros) {
                 incidencia.tipo = Incidencia.tipoIncidencia.Otros.toString()
+
+                // Establezco el color de fondo solo al item seleccionado
+                binding.listTipoIncidencia.getChildAt(position).setBackgroundColor(resources.getColor(R.color.purple_700))
+
             }
 
             ocultarTeclado()
@@ -163,14 +205,10 @@ class InsertarIncidenciaFragment : Fragment(R.layout.fragment_insertar_incidenci
 
         // Boton de insertar incidencia
         binding.BInsertarIncidencia.setOnClickListener(){
-            var usuario = FirebaseAuth.getInstance().currentUser
-            var correo = usuario?.email.toString()
-            var nameUser = correo.split("@")[0]
+
             // Comprobamos que los campos no estén vacíos
             if (binding.TBTituloIncidencia.text.toString() != "" && binding.TBDescripcionIncidencia.text.toString() != "") {
-
-                insertarIncidencia(nameUser, incidencia, correo)
-
+                insertarIncidencia(incidencia)
             }
             else
             {
@@ -211,25 +249,48 @@ class InsertarIncidenciaFragment : Fragment(R.layout.fragment_insertar_incidenci
     * usuario.
     */
     private fun insertarIncidencia(
-        nameUser: String,
-        incidencia: Incidencia,
-        correo: String
-    ) {
-        // Obtener la fecha actual del sistema y guardarla en la incidencia
-        //val fechaActual = Calendar.getInstance().time
 
+        incidencia: Incidencia,
+
+    ) {
+        var nombreusuario = ""
+
+       obtenerUsername { username ->
+           // Hacer algo con el valor de username aquí
+           Log.d("Usuario", "Username obtenido: $username")
+
+           if (username != null) {
+               nombreusuario = username
+           }
+           else
+           {
+              nombreusuario = "Anónimo"
+           }
+
+           insercionIncidencia(nombreusuario, incidencia)
+       }
+
+
+   }
+
+    private fun insercionIncidencia(
+        nombreusuario: String,
+        incidencia: Incidencia
+    ) {
         // Creamos la incidencia
         val nombre = binding.TBTituloIncidencia.text.toString()
         val fecha = binding.TBFechaIncidencia.text.toString()
         val descripcion =
-            binding.TBDescripcionIncidencia.text.toString() + " \n Comentario hecho por: " + nameUser
+            binding.TBDescripcionIncidencia.text.toString() + " \n Comentario hecho por: " + nombreusuario
         val acabada = false
+        val lugar = binding.TBLugarIncidencia.text.toString()
         // val foto = subirFotoFirebase(imagenVarible)
         incidencia.nombre = nombre
         incidencia.fecha = fecha
         incidencia.descripcion = descripcion
         incidencia.acabada = acabada
         incidencia.foto = urlDescargarFoto
+        incidencia.lugar = lugar
 
 
         // Subir la foto a Firebase Storage ---> Pasar a funcion
@@ -288,18 +349,12 @@ class InsertarIncidenciaFragment : Fragment(R.layout.fragment_insertar_incidenci
 
 
                     val CasaFragment = Intent(activity, MenuLateral::class.java)
-                   // CasaFragment.putExtra("foto", imagenVarible)
-                    CasaFragment.putExtra("correo", correo)
-                    CasaFragment.putExtra("nombre", nameUser)
                     startActivity(CasaFragment)
 
                 } else {
                     // Si da error al insertar la incidencia, mostramos un mensaje de error
                     val CasaFragment = Intent(activity, MenuLateral::class.java)
                     startActivity(CasaFragment)
-                    CasaFragment.putExtra("correo", correo)
-                    CasaFragment.putExtra("nombre", nameUser)
-                    CasaFragment.putExtra("foto", imagenVarible)
                     // Mostramos un mensaje de error
                     Toast.makeText(
                         requireActivity().applicationContext,
@@ -466,22 +521,31 @@ class InsertarIncidenciaFragment : Fragment(R.layout.fragment_insertar_incidenci
  */
     fun obtenerFechaHoraActual(): String {
         val timeZone = TimeZone.getTimeZone("Europe/Madrid")
-        val dateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
+        val dateFormat = SimpleDateFormat("" +
+                "dd/MM/yyyy HH:mm", Locale.getDefault())
         dateFormat.timeZone = timeZone
         val fechaHoraActual = Date()
         return dateFormat.format(fechaHoraActual)
     }
 
-    /*
-    fun formatearFecha(fecha: String): String {
-        val formatoActual = SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.ENGLISH)
-        val fechaActual = formatoActual.parse(fecha)
+    fun obtenerUsername(callback: (String) -> Unit) {
+        val auth = FirebaseAuth.getInstance()
+        val correo = auth.currentUser?.email.toString()
+        val db = FirebaseFirestore.getInstance()
 
-        val formatoNuevo = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale("es", "ES"))
-        return formatoNuevo.format(fechaActual)
-    }*/
-
-
+        db.collection("usuarios").document(correo).get()
+            .addOnSuccessListener { documentSnapshot ->
+                var username = ""
+                if (documentSnapshot.exists()) {
+                    val nombre = documentSnapshot.getString("Nombre")
+                    val apellido = documentSnapshot.getString("Apellidos")
+                    username = "$nombre $apellido"
+                    Log.d("Usuario", "Datos Usuario: $username")
+                }
+                Log.d("Usuario", "Datos Usuario: ${documentSnapshot.data}")
+                callback(username) // Llamar a la devolución de llamada con el valor de username
+            }
+    }
 
 
 }

@@ -28,13 +28,15 @@ package ies.luiscarrillo.proyectofinaldamjlbsva.Datos.ParteIncidencias.Data
  */
 data class DatosIncidencias (
    var nombre: String = "",
-   var fecha: String = "",
    var descripcion: String = "",
+   var fecha: String = "",
    var acabada: Boolean = false,
+   var foto: String = "",
    var prioridad: String = "",
    var tipo: String = "",
+   var lugar: String = "",
    var ID: String ="",
-   var foto: String = ""
+
 )
 
 

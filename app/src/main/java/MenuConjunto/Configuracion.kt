@@ -74,7 +74,7 @@ class Configuracion : Fragment() {
                     binding!!.switch1.isChecked = false
                 }
             }
-            recreate(requireActivity() as MenuLateral)
+            recreate(requireActivity())
         }
 
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
@@ -90,14 +90,18 @@ class Configuracion : Fragment() {
         binding!!.BTCambiarContraseA.setOnClickListener {
 
             val auth = FirebaseAuth.getInstance()
-            val emailAddress = auth.currentUser?.email.toString()
 
-            auth.sendPasswordResetEmail(emailAddress)
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        Toast.makeText(activity, "Se ha enviado un correo para cambiar la contraseña", Toast.LENGTH_SHORT).show()
+            val correo = binding!!.TBContraseA2.text.toString().trim()
+            if (correo.isNullOrEmpty()) {
+                Toast.makeText(activity, "Introduce un Correo", Toast.LENGTH_SHORT).show()
+            } else {
+                auth.sendPasswordResetEmail(correo)
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            Toast.makeText(activity, "Se ha enviado un correo para cambiar la contraseña", Toast.LENGTH_SHORT).show()
+                        }
                     }
-                }
+            }
 
             true
         }

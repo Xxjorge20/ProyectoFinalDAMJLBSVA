@@ -52,7 +52,7 @@
             android:id="@+id/TBDescripcionIncidencia"
             android:layout_width="405dp"
             android:layout_height="73dp"
-            android:layout_marginTop="44dp"
+            android:layout_marginTop="48dp"
             android:background="@drawable/borde_edittext"
             android:ems="10"
             android:hint="Descripcion"
@@ -62,9 +62,8 @@
             android:textColorHint="@color/white"
             android:windowSoftInputMode="adjustPan"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/TBFechaIncidencia" />
+            app:layout_constraintTop_toBottomOf="@+id/TBLugarIncidencia" />
 
         <EditText
             android:id="@+id/TBFechaIncidencia"
@@ -84,6 +83,22 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/TBTituloIncidencia" />
+
+
+        <EditText
+            android:id="@+id/TBLugarIncidencia"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="36dp"
+            android:background="@drawable/borde_edittext"
+            android:ems="10"
+            android:hint="Lugar"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/TBFechaIncidencia" />
 
         <ImageView
             android:id="@+id/imageVista"
@@ -152,8 +167,8 @@
 
         <ListView
             android:id="@+id/listTipoIncidencia"
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
+            android:layout_width="396dp"
+            android:layout_height="175dp"
             android:layout_marginTop="20dp"
             android:background="#00FFFFFF"
             app:layout_constraintEnd_toEndOf="parent"

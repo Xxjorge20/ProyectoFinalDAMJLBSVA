@@ -173,16 +173,9 @@ class adapterIncidencas(private var incidencias: ArrayList<DatosIncidencias>) : 
         args.putBoolean("acabada", datosIncidencias.acabada)
         args.putString("foto", datosIncidencias.foto)
         args.putString("tipo", datosIncidencias.tipo)
+       args.putString("lugar", datosIncidencias.lugar)
 
-        /*
-                datosIncidencias.nombre,
-                datosIncidencias.fecha,
-                datosIncidencias.descripcion,
-                datosIncidencias.acabada,
-                datosIncidencias.foto,
-                datosIncidencias.prioridad,
-                datosIncidencias.ID
-        * */
+
         fragment.arguments = args
         // Asociar con el menu de la aplicacion de la parte de incidencias
         val fragmentManager: FragmentManager = (holder.itemView.context as MenuLateral).supportFragmentManager
@@ -262,12 +255,13 @@ class adapterIncidencas(private var incidencias: ArrayList<DatosIncidencias>) : 
             respuesta = true
             Incidencia(
                 datosIncidencias.nombre,
-                datosIncidencias.fecha,
                 datosIncidencias.descripcion,
+                datosIncidencias.fecha,
                 datosIncidencias.acabada,
                 datosIncidencias.foto,
                 datosIncidencias.prioridad,
                 datosIncidencias.tipo,
+                datosIncidencias.lugar,
                 datosIncidencias.ID
             ).BorrarIncidencia(datosIncidencias.ID) // Llamo a la funcion de borrar incidencia
 

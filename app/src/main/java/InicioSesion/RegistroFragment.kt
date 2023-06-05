@@ -2,6 +2,9 @@ package InicioSesion
 
 import MenuConjunto.Notificaciones
 import ParteUsuarios.Data.Usuarios
+import ParteUsuarios.InicioFragment
+
+import android.R
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -10,34 +13,24 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
-import androidx.activity.OnBackPressedCallback
+
 import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import ies.luiscarrillo.proyectofinaldamjlbsva.Datos.ParteIncidencias.Menu.MenuLateral
 import ies.luiscarrillo.proyectofinaldamjlbsva.databinding.ActivityRegistroBinding
-import ies.luiscarrillo.proyectofinaldamjlbsva.R
 
 class RegistroFragment : Fragment() {
 
     private lateinit var binding: ActivityRegistroBinding
     private val db = FirebaseFirestore.getInstance()
-
+    private var usuarioA = FirebaseAuth.getInstance().currentUser
+    private var auth = FirebaseAuth.getInstance()
+    private var email = usuarioA?.email.toString()
+    val usuario = Usuarios("", "", "", "","")
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = ActivityRegistroBinding.inflate(inflater, container, false)
-
-        activity?.title = "Nuevo Usuario"
-
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                // Realizar la navegación deseada cuando se presione el botón de retroceso
-                val homeFragment = Intent(activity, MenuLateral::class.java)
-                startActivity(homeFragment)
-                requireActivity().finish()
-            }
-        })
-
         return binding.root
     }
 
@@ -46,14 +39,40 @@ class RegistroFragment : Fragment() {
 
         activity?.title = "Nuevo Usuario"
 
-        var usuario = Usuarios("", "", "", "","")
+        usuarioA = FirebaseAuth.getInstance().currentUser
+        auth = FirebaseAuth.getInstance()
+        val usuarioActual = Usuarios("", "", "", "","")
+
+        obtenerUser { usuarios ->
+
+                if (usuarios != null) {
+                    usuarioActual.email = usuarios.email
+                }
+            if (usuarios != null) {
+                usuarioActual.privi = usuarios.privi
+            }
+            if (usuarios != null) {
+                usuarioActual.nombre = usuarios.nombre
+            }
+            if (usuarios != null) {
+                usuarioActual.apellidos = usuarios.apellidos
+            }
+            if (usuarios != null) {
+                usuarioActual.password = usuarios.password
+            }
+                Log.d("Usuario", "Usuario actual: $usuarioActual")
+
+        }
+
+
+
         val listaPrivilegios = Usuarios.privilegios.values()
         val listaPrivilegiosString = ArrayList<String>()
         for (privilegio in listaPrivilegios) {
             listaPrivilegiosString.add(privilegio.toString())
         }
         binding.listaPrivi.adapter = ArrayAdapter(
-            requireContext(), R.layout.list_item_custom,
+            requireContext(), ies.luiscarrillo.proyectofinaldamjlbsva.R.layout.list_item_custom,
             listaPrivilegiosString
         )
 
@@ -61,12 +80,29 @@ class RegistroFragment : Fragment() {
             Toast.makeText(requireContext(), "Privilegio seleccionado: ${listaPrivilegios[position]}", Toast.LENGTH_SHORT).show()
             Log.d("Privilegios", listaPrivilegios[position].toString())
 
+            // Limpio el color de fondo de todos los items y lo pongo transparente
+            for (i in 0 until parent.childCount) {
+                parent.getChildAt(i).setBackgroundColor(android.graphics.Color.TRANSPARENT)
+            }
+
+
             if (listaPrivilegios[position] == Usuarios.privilegios.admin) {
                 usuario.privi = Usuarios.privilegios.admin.toString()
+
+                // Pongo el color de fondo del item seleccionado
+                view.setBackgroundColor(resources.getColor(ies.luiscarrillo.proyectofinaldamjlbsva.R.color.purple_500))
+
             } else if (listaPrivilegios[position] == Usuarios.privilegios.gestor) {
                 usuario.privi = Usuarios.privilegios.gestor.toString()
+
+                // Pongo el color de fondo del item seleccionado
+                view.setBackgroundColor(resources.getColor(ies.luiscarrillo.proyectofinaldamjlbsva.R.color.purple_500))
+
             } else if (listaPrivilegios[position] == Usuarios.privilegios.user) {
                 usuario.privi = Usuarios.privilegios.user.toString()
+
+                // Pongo el color de fondo del item seleccionado
+                view.setBackgroundColor(resources.getColor(ies.luiscarrillo.proyectofinaldamjlbsva.R.color.purple_500))
             }
         }
 
@@ -80,69 +116,135 @@ class RegistroFragment : Fragment() {
 
             // Obtenemos el usuario actual
 
-            var usuarioA = FirebaseAuth.getInstance().currentUser
-            var correo = usuarioA?.email.toString()
-            var nameUser = correo.split("@")[0]
+
             // Comprobamos que los campos no estén vacíos
 
 
 
-            if (usuario.email != null
-                && usuario.password != null
-                && usuario.nombre != null
-                && usuario.apellidos != null) {
+            val nombre = binding.Nombre.text.toString().trim()
+            val email = binding.email.text.toString().trim()
+            val password = binding.password.text.toString().trim()
 
-                    FirebaseAuth.getInstance().createUserWithEmailAndPassword(
-                        usuario.email, usuario.password).addOnCompleteListener{
+            if (nombre.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty()) {
+                FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
+                    .addOnSuccessListener { authResult ->
+                        val user = authResult.user
+                        if (user != null) {
 
+                            // Enviamos el email de verificación
+                            user.sendEmailVerification()
+                                .addOnSuccessListener {
+                                    Toast.makeText(
+                                        requireContext(),
+                                        "Email de verificación enviado a ${user.email}",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                    Log.d("Registro", "Email de verificación enviado a ${user.email}")
+                                }
+                                .addOnFailureListener { emailException ->
+                                    Toast.makeText(
+                                        requireContext(),
+                                        "Error al enviar el email de verificación: ${emailException.message}",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                    Log.d("Registro", emailException.toString())
+                                }
 
-                         // VERIFICACION DE CORREO
-                        usuarioA?.sendEmailVerification()?.addOnCompleteListener { emailVerificationTask ->
-                            if (emailVerificationTask.isSuccessful) {
-                                Toast.makeText(
-                                    context,
-                                    "Registro exitoso. Se ha enviado un correo de verificación.",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            }
+                            db.collection("usuarios").document(email)
+                                .set(
+                                    mapOf(
+                                        "Nombre" to usuario.nombre,
+                                        "Apellidos" to usuario.apellidos,
+                                        "email" to usuario.email,
+                                        "Password" to usuario.password,
+                                        "Privilegios" to usuario.privi
+                                    )
+                                )
+                                .addOnSuccessListener {
+                                    Log.d("Registro", "Usuario registrado correctamente: ${user.email}")
+                                    FirebaseAuth.getInstance().signOut()
+                                    FirebaseAuth.getInstance().signInWithEmailAndPassword(usuarioActual.email, usuarioActual.password)
+                                        .addOnSuccessListener { signInResult ->
+                                            Log.d("Registro", "Usuario logueado correctamente: ${signInResult.user?.email}")
+
+                                            val intent = Intent(requireContext(), Notificaciones::class.java).apply {
+                                                putExtra("RegistroNombre", usuario.nombre)
+                                                putExtra("RegistroEmail", usuario.email)
+                                            }
+
+                                            startActivity(intent)
+                                        }
+                                        .addOnFailureListener { signInException ->
+                                            Toast.makeText(
+                                                requireContext(),
+                                                "Error al iniciar sesión: ${signInException.message}",
+                                                Toast.LENGTH_SHORT
+                                            ).show()
+                                            Log.d("Registro", signInException.toString())
+                                        }
+                                }
+                                .addOnFailureListener { registerException ->
+                                    Toast.makeText(
+                                        requireContext(),
+                                        "Error en el registro del nuevo usuario: ${registerException.message}",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                    Log.d("Registro", registerException.toString())
+                                }
+                        } else {
+                            Toast.makeText(
+                                requireContext(),
+                                "Error en el registro del nuevo usuario",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            Log.d("Registro", "AuthResult user is null")
                         }
-
-
-                        if (it.isSuccessful){
-                            db.collection("usuarios").document(usuario.email)
-                                .set(mapOf(
-                                    "Nombre" to usuario.nombre,
-                                    "Apellidos" to usuario.apellidos,
-                                    "email" to usuario.email,
-                                    "Password" to usuario.password,
-                                    "Privilegios" to usuario.privi
-                                ))
-
-
-                            Log.d("Registro", "Usuario registrado correctamente" + it.result)
-
-                            val intent = Intent(requireContext(), Notificaciones::class.java).apply{
-                                putExtra("nombre",nameUser)
-                                putExtra("correo",correo)
-
-                                putExtra("RegistroNombre", usuario.nombre)
-                                putExtra("RegistroEmail", usuario.email)
-                            }
-
-                            startActivity(intent)
-
-
-
-                        }
-                        else {
-                            Toast.makeText(requireContext(),"Error en el registro del nuevo usuario", Toast.LENGTH_SHORT).show()
-                            Log.d("Registro", it.exception.toString())
-                        }
-                }
+                    }
+                    .addOnFailureListener { registerException ->
+                        Toast.makeText(
+                            requireContext(),
+                            "Error en el registro del nuevo usuario: ${registerException.message}",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        Log.d("Registro", registerException.toString())
+                    }
+            } else {
+                Toast.makeText(requireContext(), "Rellene todos los campos", Toast.LENGTH_SHORT).show()
             }
-            else {
-                Toast.makeText(requireContext(), "Algun campo está vacio", Toast.LENGTH_SHORT).show()
-            }
+
+
         }
     }
+
+    // Funcion para obtener el usuario actual de la base de datos
+
+    fun obtenerUser(callback: (Usuarios?) -> Unit) {
+        var usuario = Usuarios("", "", "", "", "")
+        usuarioA = FirebaseAuth.getInstance().currentUser
+        var correo = usuarioA?.email.toString()
+
+
+        auth.currentUser.let {
+            db.collection("usuarios").document(correo).get().addOnSuccessListener { documentSnapshot ->
+                if (documentSnapshot.exists()) {
+                    usuario.nombre = documentSnapshot.get("Nombre").toString()
+                    usuario.apellidos = documentSnapshot.get("Apellidos").toString()
+                    usuario.email = documentSnapshot.get("email").toString()
+                    usuario.password = documentSnapshot.get("Password").toString()
+                    usuario.privi = documentSnapshot.get("Privilegios").toString()
+
+                    callback(usuario)
+                } else {
+                    callback(null)
+                }
+            }.addOnFailureListener {
+                callback(null)
+            }
+        }
+
+
+    }
+
+
+
 }

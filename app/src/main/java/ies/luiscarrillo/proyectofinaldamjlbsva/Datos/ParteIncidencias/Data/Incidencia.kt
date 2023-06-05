@@ -26,6 +26,7 @@ open class Incidencia {
     var foto: String = ""
     var prioridad: String = ""
     var tipo: String = ""
+    var lugar: String = ""
     private var ID: String = ""
 
 
@@ -37,6 +38,7 @@ open class Incidencia {
         acabada: Boolean,
         prioridad: String,
         tipo: String,
+        lugar: String,
         foto: String
     ) {
         this.nombre = nombre
@@ -57,6 +59,7 @@ open class Incidencia {
         foto: String,
         prioridad: String,
         tipo: String,
+        lugar: String,
         id: String
     ) {
         this.nombre = nombre
@@ -102,19 +105,21 @@ open class Incidencia {
             val datos = hashMapOf(
                 "nombre" to incidencia.nombre,
                 "descripcion" to incidencia.descripcion,
-                "prioridad" to incidencia.prioridad,
-                "tipo" to incidencia.tipo,
                 "fecha" to incidencia.fecha,
                 "acabada" to incidencia.acabada,
+                "foto" to incidencia.foto,
+                "prioridad" to incidencia.prioridad,
+                "tipo" to incidencia.tipo,
+                "lugar" to incidencia.lugar,
                 "ID" to incidencia.ID,
-                "foto" to incidencia.foto
             )
 
             // Inserto los datos en la BD de Firebase
-            db.collection("Incidencias").document(idDocumento).set(datos)
+            db.collection("Incidencias").document(incidencia.ID).set(datos)
                 .addOnSuccessListener {
                     insertadoCorrectamente = true
                     Log.d("Incidencia", "Incidencia insertada correctamente")
+                    Log.d("IncidenciaID", "ID: ${incidencia.ID}")
                 }
                 .addOnFailureListener {
                     insertadoCorrectamente = false
@@ -189,7 +194,6 @@ open class Incidencia {
         fun actualizarIncidencia(incidencia: Incidencia) {
 
             // Actualiza una incidencia de la BD
-            var actualizadoCorrectamente = false
             var auth = FirebaseAuth.getInstance()
             val db = FirebaseFirestore.getInstance()
 
@@ -198,15 +202,18 @@ open class Incidencia {
                 val datos = hashMapOf(
                     "nombre" to incidencia.nombre,
                     "descripcion" to incidencia.descripcion,
-                    "prioridad" to incidencia.prioridad,
                     "fecha" to incidencia.fecha,
                     "acabada" to incidencia.acabada,
+                    "foto" to incidencia.foto,
+                    "prioridad" to incidencia.prioridad,
                     "tipo" to incidencia.tipo,
-                    "foto" to incidencia.foto
+                    "lugar" to incidencia.lugar,
+                    "id" to incidencia.ID,
+
                 )
                 db.collection("Incidencias").document(incidencia.ID).set(datos)
                     .addOnSuccessListener {
-                        actualizadoCorrectamente = true
+
                         Log.d("Incidencia", "Incidencia actualizada correctamente")
                         Log.d("Incidencia", incidencia.ID)
                         Log.d("Incidencia", incidencia.nombre)
@@ -218,7 +225,7 @@ open class Incidencia {
                         Log.d("Incidencia", incidencia.foto)
                     }
                     .addOnFailureListener {
-                        actualizadoCorrectamente = false
+
                         Log.d("Incidencia", "Error al actualizar la incidencia")
                     }
             }

@@ -4,6 +4,7 @@ import InicioSesion.MainActivity
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.Color
 import android.os.Bundle
 import android.os.SystemClock
 import android.provider.MediaStore
@@ -22,6 +23,8 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.type.DateTime
 import ies.luiscarrillo.proyectofinaldamjlbsva.Datos.ParteIncidencias.Data.Incidencia
@@ -56,6 +59,7 @@ class ModificarIncidencia : Fragment() {
     var foto: String? = null
     var finalizada: Boolean = false
     var tipo : String? = null
+    var lugar : String? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -76,11 +80,14 @@ class ModificarIncidencia : Fragment() {
         nombre = arguments?.getString("nombre")
         descripcion = arguments?.getString("descripcion")
         fecha = arguments?.getString("fecha")
-        prioridad = arguments?.getString("prioridad")
         acabada = arguments?.getString("acabada")
-        id = arguments?.getString("id")
         foto = arguments?.getString("foto")
+        prioridad = arguments?.getString("prioridad")
         tipo = arguments?.getString("tipo")
+        lugar = arguments?.getString("lugar")
+        id = arguments?.getString("ID")
+
+
 
         /*
         datosIncidencias.nombre,
@@ -130,7 +137,7 @@ class ModificarIncidencia : Fragment() {
 
         binding.listPrioridadModificar.adapter = android.widget.ArrayAdapter(
             requireContext(),
-            android.R.layout.simple_list_item_1,
+            R.layout.list_item_custom,
             // recorro el array de prioridades y la añado a la lista
             listaPrioridadesString
 
@@ -143,13 +150,37 @@ class ModificarIncidencia : Fragment() {
             Toast.makeText(requireContext(), "Prioridad seleccionada: ${listaPrioridades[position]}", Toast.LENGTH_SHORT).show()
             Log.d("Prioridad", listaPrioridades[position].toString())
 
+
+            // Limpio el color de fondo de todos los items y lo pongo transparente
+            for (i in 0 until parent.count) {
+                val item = parent.getChildAt(i)
+                item.setBackgroundColor(Color.TRANSPARENT)
+            }
+
+
+
             // guardo la prioridad seleccionada
             if (listaPrioridades[position] == Incidencia.Prioridad.ALTA) {
                 prioridad = Incidencia.Prioridad.ALTA.toString()
+
+                // Establezco el color de fondo solo al item seleccionado
+                val item = parent.getChildAt(position)
+                item.setBackgroundColor(Color.MAGENTA)
+
             } else if (listaPrioridades[position] == Incidencia.Prioridad.MEDIA) {
                 prioridad = Incidencia.Prioridad.MEDIA.toString()
+
+                // Establezco el color de fondo solo al item seleccionado
+                val item = parent.getChildAt(position)
+                item.setBackgroundColor(Color.MAGENTA)
+
             } else if (listaPrioridades[position] == Incidencia.Prioridad.BAJA) {
                 prioridad = Incidencia.Prioridad.BAJA.toString()
+
+                // Establezco el color de fondo solo al item seleccionado
+                val item = parent.getChildAt(position)
+                item.setBackgroundColor(Color.MAGENTA)
+
             }
 
             ocultarTeclado()
@@ -172,7 +203,7 @@ class ModificarIncidencia : Fragment() {
 
         binding.listTipoModificar.adapter = android.widget.ArrayAdapter(
             requireContext(),
-            android.R.layout.simple_list_item_1,
+            R.layout.list_item_custom,
             // recorro el array de prioridades y la añado a la lista
             listaTipo
 
@@ -184,16 +215,42 @@ class ModificarIncidencia : Fragment() {
             Toast.makeText(requireContext(), "Tipo seleccionada: ${tipoLista[position]}", Toast.LENGTH_SHORT).show()
             Log.d("Tipo", tipoLista[position].toString())
 
+            // Limpio el color de fondo de todos los items y lo pongo transparente
+            for (i in 0 until parent.count) {
+                val item = parent.getChildAt(i)
+                item.setBackgroundColor(Color.TRANSPARENT)
+            }
+
             // guardo la prioridad seleccionada
             if (tipoLista[position] == Incidencia.tipoIncidencia.Informaticas) {
                 tipo = Incidencia.tipoIncidencia.Informaticas.toString()
+
+                // Establezco el color de fondo solo al item seleccionado
+                val item = parent.getChildAt(position)
+                item.setBackgroundColor(Color.MAGENTA)
+
             } else if (tipoLista[position] == Incidencia.tipoIncidencia.Mantenimiento) {
                 tipo = Incidencia.tipoIncidencia.Mantenimiento.toString()
+
+                // Establezco el color de fondo solo al item seleccionado
+                val item = parent.getChildAt(position)
+                item.setBackgroundColor(Color.MAGENTA)
+
             } else if (tipoLista[position] == Incidencia.tipoIncidencia.Electrico) {
                 tipo = Incidencia.tipoIncidencia.Electrico.toString()
+
+                // Establezco el color de fondo solo al item seleccionado
+                val item = parent.getChildAt(position)
+                item.setBackgroundColor(Color.MAGENTA)
+
             }
             else if (tipoLista[position] == Incidencia.tipoIncidencia.Otros) {
                 tipo = Incidencia.tipoIncidencia.Otros.toString()
+
+                // Establezco el color de fondo solo al item seleccionado
+                val item = parent.getChildAt(position)
+                item.setBackgroundColor(Color.MAGENTA)
+
             }
 
             ocultarTeclado()
@@ -228,56 +285,67 @@ class ModificarIncidencia : Fragment() {
      */
     private fun actualizarIncidencia() {
 
+            try
+            {
 
-        nombre = binding.TBTituloIncidenciaModificar.text.toString()
-        descripcion = binding.TBDescripcionIncidencia2Modificar.text.toString()
-        var comentarioAdccional = binding.editText.text.toString()
+                nombre = binding.TBTituloIncidenciaModificar.text.toString()
+                descripcion = binding.TBDescripcionIncidencia2Modificar.text.toString()
+                var comentarioAdccional = binding.editText.text.toString()
 
-        finalizada = binding.checkBoxSi.isChecked
+                finalizada = binding.checkBoxSi.isChecked
 
-        var usuario = obtenerUsuarioActual()
+                obtenerUsername { username ->
+                    var usuario = username
+
+                    if (usuario == "") {
+                        usuario = "Anónimo"
+                    }
+
+                    val incidencia = Incidencia(
+
+                        binding.TBTituloIncidenciaModificar.text.toString(),
+                        descripcion.toString() + "\n" + comentarioAdccional.toString() + " \n Comentario añadido por: " + usuario.toString(),
+                        fecha.toString(),
+                        finalizada,
+                        foto.toString(),
+                        prioridad.toString(),
+                        tipo.toString(),
+                        lugar.toString(),
+                        id.toString()
+
+                    )
+
+                    // Actualizo la incidencia
+                    Incidencia.actualizarIncidencia(incidencia)
+
+                    val intent = Intent(requireContext(), MenuLateral::class.java)
+                    startActivity(intent)
+                }
+
+            }catch (e: Exception){
+                Log.e("ModificarIncidencia", "Error al actualizar la incidencia: ${e.message}")
+                Toast.makeText(requireContext(), "Error al actualizar la incidencia", Toast.LENGTH_SHORT).show()
+
+            }
 
 
-        val incidencia = Incidencia(
-
-            binding.TBTituloIncidenciaModificar.text.toString(),
-            descripcion.toString()+ "\n" + comentarioAdccional.toString() + " \n Comentario añadido por: " + usuario.toString(),
-            fecha.toString(),
-            finalizada,
-            foto.toString(),
-            prioridad.toString(),
-            tipo.toString(),
-            id.toString()
-
-        )
-
-        // Actualizo la incidencia
-        Incidencia.actualizarIncidencia(incidencia)
-
-        // vuelvo a la activity principal
-        val email = FirebaseAuth.getInstance().currentUser?.email
-        val intent = Intent(requireContext(), MenuLateral::class.java)
-        intent.putExtra("nombre", usuario)
-        intent.putExtra("correo", email)
-        startActivity(intent)
+        }
 
 
-    }
+
+
+
 
     // Obtener al usuario actual
 /**
  * La función obtiene el correo electrónico del usuario actual y devuelve su nombre de usuario
  * dividiendo el correo electrónico en el símbolo "@".
- * 
+ *
  * @return La función `obtenerUsuarioActual()` devuelve una cadena que representa la dirección de
  * correo electrónico del usuario actual sin el nombre de dominio.
  */
-    private fun obtenerUsuarioActual(): String {
-        val usuario = FirebaseAuth.getInstance().currentUser
-        var usuarioActual = usuario?.email
-        var nombre = usuarioActual?.split("@")
-        return nombre?.get(0).toString()
-    }
+
+
 
 
     companion object {
@@ -308,6 +376,25 @@ class ModificarIncidencia : Fragment() {
         binding.TBDescripcionIncidencia2Modificar.setTextColor(android.graphics.Color.WHITE)
     }
 
+
+    fun obtenerUsername(callback: (String) -> Unit) {
+        val auth = FirebaseAuth.getInstance()
+        val correo = auth.currentUser?.email.toString()
+        val db = FirebaseFirestore.getInstance()
+
+        db.collection("usuarios").document(correo).get()
+            .addOnSuccessListener { documentSnapshot ->
+                var username = ""
+                if (documentSnapshot.exists()) {
+                    val nombre = documentSnapshot.getString("Nombre")
+                    val apellido = documentSnapshot.getString("Apellidos")
+                    username = "$nombre $apellido"
+                    Log.d("Usuario", "Datos Usuario: $username")
+                }
+                Log.d("Usuario", "Datos Usuario: ${documentSnapshot.data}")
+                callback(username) // Llamar a la devolución de llamada con el valor de username
+            }
+    }
 
 
 }

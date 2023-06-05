@@ -45,7 +45,7 @@ class MenuLateral : AppCompatActivity() {
         val nombre = header.findViewById<TextView>(R.id.TBUserName)
 
 
-        email.text = obtenerCorreo()
+
         obtenerUsername { username ->
             // Hacer algo con el valor de username aquí
             Log.d("Usuario", "Username obtenido: $username")
@@ -60,6 +60,7 @@ class MenuLateral : AppCompatActivity() {
 
         }
 
+        email.text = obtenerCorreo()
         permisos()
 
 

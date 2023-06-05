@@ -6,7 +6,11 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.util.Log
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContentProviderCompat.requireContext
@@ -32,8 +36,8 @@ class Notificaciones : AppCompatActivity() {
         val nombreRegistrado = intent.getStringExtra("RegistroNombre")
         val correoRegistrado = intent.getStringExtra("RegistroEmail")
 
-       val email = intent.getStringExtra("correo")
-       val nombre = intent.getStringExtra("nombre")
+        val email = intent.getStringExtra("correo")
+        val nombre = intent.getStringExtra("nombre")
 
 
 
@@ -59,13 +63,20 @@ class Notificaciones : AppCompatActivity() {
 
         // Construccion de notificacion
         notificationManager.notify(1, notificationBuilder.build())
+
+
+
         // Cambio de activity
+
         val intent = Intent(this, MenuLateral::class.java).apply {
             putExtra("correo", email)
             putExtra("nombre", nombre)
         }
         startActivity(intent)
+
+
+
+
     }
-
-
+    
 }

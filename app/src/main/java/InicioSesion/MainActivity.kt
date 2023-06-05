@@ -45,10 +45,6 @@ class MainActivity : AppCompatActivity() {
             //pasandole a Firebase el correo y la contraseña
             login { userName ->
 
-
-
-
-
                 val user = FirebaseAuth.getInstance().currentUser
                 if (user != null && user.isEmailVerified)
                 {
