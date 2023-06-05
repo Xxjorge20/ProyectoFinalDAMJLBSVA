@@ -46,7 +46,7 @@ class MainActivity : AppCompatActivity() {
             login { userName ->
 
                 val user = FirebaseAuth.getInstance().currentUser
-                if (user != null && user.isEmailVerified)
+                if (user != null /* && user.isEmailVerified */)
                 {
 
                     val intent = Intent(this, MenuLateral::class.java)

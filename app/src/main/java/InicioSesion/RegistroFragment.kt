@@ -132,6 +132,9 @@ class RegistroFragment : Fragment() {
                         if (user != null) {
 
                             // Enviamos el email de verificación
+
+                            /*
+
                             user.sendEmailVerification()
                                 .addOnSuccessListener {
                                     Toast.makeText(
@@ -150,6 +153,7 @@ class RegistroFragment : Fragment() {
                                     Log.d("Registro", emailException.toString())
                                 }
 
+                            */
                             db.collection("usuarios").document(email)
                                 .set(
                                     mapOf(
